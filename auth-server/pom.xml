@@ -15,7 +15,8 @@
     </parent>
 
     <properties>
-        <docker.image.prefix>authServer</docker.image.prefix>
+        <docker.image.prefix>auth-server</docker.image.prefix>
+        <dockerHost>https://192.168.99.100:2376</dockerHost>
     </properties>
 
 
@@ -65,8 +66,10 @@
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory> #jar包所在目录，缺省为target
-                            <include>${project.build.finalName}.jar</include> #jar包名，缺省为 ${project.artifactId}-${project.version}
+                            <!--   #jar包所在目录，缺省为target-->
+                            <directory>${project.build.directory}</directory>
+                            <!--   #jar包名，缺省为 ${project.artifactId}-${project.version}-->
+                            <include>${project.build.finalName}.jar</include>
                         </resource>
                     </resources>
                 </configuration>

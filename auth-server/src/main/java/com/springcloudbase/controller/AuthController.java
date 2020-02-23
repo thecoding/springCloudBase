@@ -32,6 +32,13 @@ public class AuthController {
     @Autowired
     JwtProperties jwtProperties;
 
+    /**
+     * 登录接口
+     * @param username
+     * @param password
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/login")
     public ResponseEntity auth(@NotNull @RequestParam("username") String username, @NotNull @RequestParam("password") String password) throws Exception {
         Map<String, String> map = new HashMap<>();
