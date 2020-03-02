@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,17 +24,11 @@ public class FastDfsController {
     @Autowired
     private FastDFSClientWrapper fastDFSClientWrapper;
 
-    @RequestMapping("/upload")
-    public String uploadFile(@RequestParam("file") MultipartFile[] files) throws IOException {
+    @RequestMapping(value="/upload")
+    public String uploadFile(@RequestPart("file") MultipartFile[] files,@RequestParam("userName") String userName, @RequestParam("remark") String remark) throws IOException {
         StringBuffer sb = new StringBuffer();
         for (MultipartFile file : files) {
-            byte[] bytes = file.getBytes();
-            String originalFileName = file.getOriginalFilename();
-            String extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
-            String fileName = file.getName();
-            long fileSize = file.getSize();
-            logger.info(originalFileName + "==========" + fileName + "===========" + fileSize + "===============" + extension + "====" + bytes.length);
-            sb.append(fastDFSClientWrapper.uploadFile(bytes, fileSize, extension));
+            sb.append(fastDFSClientWrapper.uploadFile(file, null));
         }
         return sb.toString();
     }
