@@ -1,0 +1,29 @@
+spring:
+  profiles:
+    active: ${spring.profiles.avtive:dev}
+  application:
+    name: eureka-server
+
+---
+server:
+  port: ${server.port:8080}
+eureka:
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+    serviceUrl:
+      defaultZone: http://localhost:8080/eureka/
+spring:
+  profiles: dev
+
+---
+server:
+  port: ${server.port:8081}
+eureka:
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+    serviceUrl:
+      defaultZone: http://localhost:${server.port:8081}/eureka/
+spring:
+  profiles: test
