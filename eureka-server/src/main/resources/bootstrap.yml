@@ -6,24 +6,24 @@ spring:
 
 ---
 server:
-  port: ${server.port:8080}
+  port: ${port:8080}
 eureka:
   client:
     fetch-registry: false
     register-with-eureka: false
     serviceUrl:
-      defaultZone: http://localhost:8080/eureka/
+      defaultZone: http://localhost:${server.port}/eureka/
 spring:
   profiles: dev
 
 ---
 server:
-  port: ${server.port:8081}
+  port: ${port:8081}
 eureka:
   client:
     fetch-registry: false
     register-with-eureka: false
     serviceUrl:
-      defaultZone: http://localhost:${server.port:8081}/eureka/
+      defaultZone: http://localhost:${server.port}/eureka/
 spring:
   profiles: test

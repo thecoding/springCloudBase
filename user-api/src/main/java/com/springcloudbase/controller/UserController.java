@@ -1,6 +1,7 @@
 package com.springcloudbase.controller;
 
 import com.springcloudbase.vo.UserDataInfo;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,11 @@ import javax.validation.constraints.NotNull;
 @RestController
 public class UserController {
 
+    @Value("${server.port}")
+    String serverPort;
+
+    @Value("${spring.application.name}")
+    String serverName;
 
     @RequestMapping("/getUserInfoByName")
     public UserDataInfo getUserByUserName(@NotNull @RequestParam String username, @NotNull @RequestParam String password) {
@@ -25,5 +31,11 @@ public class UserController {
             return userDataInfo;
         }
         return null;
+    }
+
+
+    @RequestMapping("/info")
+    public String getInfo() {
+        return serverName + " : " +serverPort;
     }
 }
