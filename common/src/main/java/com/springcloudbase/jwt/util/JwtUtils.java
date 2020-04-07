@@ -1,4 +1,4 @@
-package utils;
+package com.springcloudbase.jwt.util;
 
 import com.springcloudbase.jwt.pojo.UserInfo;
 import io.jsonwebtoken.Claims;
@@ -6,6 +6,8 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.joda.time.DateTime;
+import utils.ObjectUtils;
+import utils.RsaUtils;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
