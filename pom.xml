@@ -16,6 +16,7 @@
         <module>eureka-server</module>
         <module>gateway</module>
         <module>order-api</module>
+        <module>server-common</module>
     </modules>
 
 
@@ -81,11 +82,6 @@
                 <artifactId>fastdfs-client</artifactId>
                 <version>${fastDFS.client.version}</version>
             </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>1.2.3</version>
-            </dependency>
 
             <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
             <dependency>
@@ -96,6 +92,14 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>

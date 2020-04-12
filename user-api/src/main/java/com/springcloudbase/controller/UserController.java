@@ -1,6 +1,8 @@
 package com.springcloudbase.controller;
 
+import com.springcloudbase.service.UserService;
 import com.springcloudbase.vo.UserDataInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +24,9 @@ public class UserController {
     @Value("${spring.application.name}")
     String serverName;
 
+    @Autowired
+    UserService userService;
+
     @RequestMapping("/getUserInfoByName")
     public UserDataInfo getUserByUserName(@NotNull @RequestParam String username, @NotNull @RequestParam String password) {
         if (username.equals("小明") && password.equals("123456")) {
@@ -36,6 +41,6 @@ public class UserController {
 
     @RequestMapping("/info")
     public String getInfo() {
-        return serverName + " : " +serverPort;
+        return serverName + " : " +serverPort + userService.getUserName();
     }
 }

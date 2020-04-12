@@ -3,8 +3,8 @@ package com.springcloudbase.jwt;
 import com.springcloudbase.jwt.pojo.UserInfo;
 import org.junit.Before;
 import org.junit.Test;
-import utils.JwtUtils;
-import utils.RsaUtils;
+import com.springcloudbase.jwt.utils.JwtUtils;
+import com.springcloudbase.utils.RsaUtils;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;

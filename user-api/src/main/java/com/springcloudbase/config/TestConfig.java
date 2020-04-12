@@ -1,5 +1,6 @@
 package com.springcloudbase.config;
 
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,6 +10,7 @@ import java.util.Map;
 /**
  * Created by Mirko on 2020/3/17.
  */
+@Aspect
 @Configuration
 public class TestConfig {
 

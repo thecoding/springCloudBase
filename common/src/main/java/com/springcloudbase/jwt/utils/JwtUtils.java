@@ -1,4 +1,4 @@
-package utils;
+package com.springcloudbase.jwt.utils;
 
 import com.springcloudbase.jwt.pojo.UserInfo;
 import io.jsonwebtoken.Claims;
@@ -6,6 +6,8 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.joda.time.DateTime;
+import com.springcloudbase.utils.ObjectUtils;
+import com.springcloudbase.utils.RsaUtils;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -26,8 +28,8 @@ public class JwtUtils {
      */
     public static String generateToken(UserInfo userInfo, PrivateKey privateKey, int expireMinutes) throws Exception {
         return Jwts.builder()
-                .claim(JwtConstans.JWT_KEY_ID, userInfo.getId())
-                .claim(JwtConstans.JWT_KEY_USER_NAME, userInfo.getUsername())
+                .claim(JwtConstants.JWT_KEY_ID, userInfo.getId())
+                .claim(JwtConstants.JWT_KEY_USER_NAME, userInfo.getUsername())
                 .setExpiration(DateTime.now().plusMinutes(expireMinutes).toDate())
                 .signWith(SignatureAlgorithm.RS256, privateKey)
                 .compact();
@@ -44,8 +46,8 @@ public class JwtUtils {
      */
     public static String generateToken(UserInfo userInfo, byte[] privateKey, int expireMinutes) throws Exception {
         return Jwts.builder()
-                .claim(JwtConstans.JWT_KEY_ID, userInfo.getId())
-                .claim(JwtConstans.JWT_KEY_USER_NAME, userInfo.getUsername())
+                .claim(JwtConstants.JWT_KEY_ID, userInfo.getId())
+                .claim(JwtConstants.JWT_KEY_USER_NAME, userInfo.getUsername())
                 .setExpiration(DateTime.now().plusMinutes(expireMinutes).toDate())
                 .signWith(SignatureAlgorithm.RS256, RsaUtils.getPrivateKey(privateKey))
                 .compact();
@@ -88,8 +90,8 @@ public class JwtUtils {
         Jws<Claims> claimsJws = parserToken(token, publicKey);
         Claims body = claimsJws.getBody();
         return new UserInfo(
-                ObjectUtils.toLong(body.get(JwtConstans.JWT_KEY_ID)),
-                ObjectUtils.toString(body.get(JwtConstans.JWT_KEY_USER_NAME))
+                ObjectUtils.toLong(body.get(JwtConstants.JWT_KEY_ID)),
+                ObjectUtils.toString(body.get(JwtConstants.JWT_KEY_USER_NAME))
         );
     }
 
@@ -105,8 +107,8 @@ public class JwtUtils {
         Jws<Claims> claimsJws = parserToken(token, publicKey);
         Claims body = claimsJws.getBody();
         return new UserInfo(
-                ObjectUtils.toLong(body.get(JwtConstans.JWT_KEY_ID)),
-                ObjectUtils.toString(body.get(JwtConstans.JWT_KEY_USER_NAME))
+                ObjectUtils.toLong(body.get(JwtConstants.JWT_KEY_ID)),
+                ObjectUtils.toString(body.get(JwtConstants.JWT_KEY_USER_NAME))
         );
     }
 }

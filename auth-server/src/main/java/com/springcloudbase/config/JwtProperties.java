@@ -1,6 +1,6 @@
 package com.springcloudbase.config;
 
-import utils.RsaUtils;
+import com.springcloudbase.utils.RsaUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
