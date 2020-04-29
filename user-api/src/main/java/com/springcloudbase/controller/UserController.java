@@ -2,12 +2,14 @@ package com.springcloudbase.controller;
 
 import com.springcloudbase.service.UserService;
 import com.springcloudbase.vo.UserDataInfo;
+import com.springcloudbase.vo.UserRegisterInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -42,5 +44,19 @@ public class UserController {
     @RequestMapping("/info")
     public String getInfo() {
         return serverName + " : " +serverPort + userService.getUserName();
+    }
+
+    /**
+     * 测试@Valid
+     * todo 待测试
+     * 工具: https://juejin.im/post/5d52a4edf265da03c81516de
+     * pojo-to-json 插件
+     * 在IDEA中快速测试API接口：https://my.oschina.net/niithub/blog/1920390
+     * @param registerInfo 入参
+     * @return
+     */
+    @RequestMapping("/validation")
+    public String testValidation(@Valid UserRegisterInfo registerInfo){
+        return registerInfo.toString();
     }
 }
