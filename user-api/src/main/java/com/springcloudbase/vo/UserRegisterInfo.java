@@ -30,9 +30,10 @@ public class UserRegisterInfo implements Serializable {
     /**
      * 年龄 在18~50之间
      */
-    @Size(min = 18,max = 50,message = "年龄不在允许范围内")
+    @Min(value = 18,message = "年龄不在允许范围内")
+    @Max(value = 50,message = "年龄不在允许范围内")
     @NotNull(message = "年龄不能为空")
-    private int age;
+    private Integer age;
 
     /**
      * 身份证
