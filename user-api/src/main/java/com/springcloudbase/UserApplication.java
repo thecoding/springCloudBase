@@ -13,8 +13,8 @@ import org.springframework.context.annotation.FilterType;
  * @Description
  * @createTime 2020年02月19日 00:08:00
  */
-@SpringBootApplication(scanBasePackages = "com.springcloudbase")
-@ComponentScan(excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = { TestConfig.class})})
+@SpringBootApplication
+@ComponentScan(value = "com.springcloudbase", excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = { TestConfig.class})})
 public class UserApplication {
 
     public static void main(String[] args) {

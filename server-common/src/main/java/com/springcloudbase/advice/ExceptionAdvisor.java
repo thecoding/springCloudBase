@@ -1,17 +1,24 @@
 package com.springcloudbase.advice;
 
+import com.springcloudbase.config.CommonConfig;
 import com.springcloudbase.exception.BusinessException;
 import com.springcloudbase.vo.result.ResponseBean;
 import com.springcloudbase.vo.result.ResponseEnums;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.net.ConnectException;
 import java.sql.SQLException;
+import java.util.stream.Collectors;
 
 /**
  * Created by Mirko on 2020/4/12.
@@ -21,18 +28,55 @@ import java.sql.SQLException;
 public class ExceptionAdvisor {
 
 
-//    /**
-//     * 请求参数类型错误异常的捕获
-//     * @param e
-//     * @return
-//     */
-//    @ExceptionHandler(value={BindException.class})
-//    @ResponseBody
-//    @ResponseStatus(value=HttpStatus.BAD_REQUEST)
-//    public ResponseBean<String> badRequest(BindException e){
-//        log.error("occurs error when execute method ,message {}",e.getMessage());
-//        return new ResponseBean<>(false, ResponseEnums.BAD_REQUEST);
-//    }
+    /**
+     * 请求参数类型错误异常的捕获
+     * 只要出现校验失败，就结束验证 {@link CommonConfig#getValidator()} todo 好像无效
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(value={BindException.class})
+    @ResponseBody
+    @ResponseStatus(value=HttpStatus.BAD_REQUEST)
+    public ResponseBean<String> badRequest(BindException e){
+        log.error("occurs error when execute method ,message {}",e.getMessage());
+        String message = e.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining());
+        log.error("{}错误信息 {}","BindException", message);
+        return new ResponseBean<>(false, ResponseEnums.BAD_REQUEST);
+    }
+
+    /**
+     * 处理请求参数格式错误 @RequestParam上validate失败后抛出的异常是javax.validation.ConstraintViolationException
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(value={ConstraintViolationException.class})
+    @ResponseBody
+    @ResponseStatus(value=HttpStatus.BAD_REQUEST)
+    public ResponseBean<String> ConstraintViolationExceptionHandler(ConstraintViolationException e) {
+        String message = e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.joining());
+        log.info("{}错误信息{}", "ConstraintViolationException", message);
+        return new ResponseBean<>(false,"024",message);
+    }
+
+
+    /**
+     * 处理请求参数格式错误 @RequestBody上validate失败后抛出的异常是MethodArgumentNotValidException异常。
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseBody
+    @ResponseStatus(value=HttpStatus.BAD_REQUEST)
+    public ResponseBean MethodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+        String message = e.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining());
+        log.info("{}错误信息：{}", "MethodArgumentNotValidException", message);
+        return new ResponseBean<>(false,"024",message);
+    }
+
+
+
+
+
 //
 //    /**
 //     * 404错误异常的捕获
@@ -74,7 +118,10 @@ public class ExceptionAdvisor {
     public <T> ResponseBean<T> sendError(BusinessException exception, HttpServletRequest request){
         String requestURI = request.getRequestURI();
         log.error("occurs error when execute url ={} ,message {}",requestURI,exception.getMsg());
-        return new ResponseBean<T>(false,exception.getCode(),exception.getMsg());
+        if (log.isDebugEnabled()) {
+            exception.printStackTrace();
+        }
+        return new ResponseBean<T>(false, exception.getCode(), exception.getMsg());
     }
     /**
      * 数据库操作出现异常

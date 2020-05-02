@@ -1,23 +1,19 @@
-package com.springcloudbase.vo;
+package com.springcloudbase.validator;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.*;
-import java.io.Serializable;
 import java.util.Date;
 
-
 /**
- * Created by Mirko on 2020/4/29.
- * 用户注册信息
- * 测试Hibernate Validator 框架
+ * Created by Mirko on 2020/5/1.
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class UserRegisterInfo implements Serializable {
+@Getter
+@Setter
+@ToString
+public class Person {
 
 
     /**

@@ -31,6 +31,6 @@ public class ResponseAdvisor implements ResponseBodyAdvice<Object> {
         if (body instanceof ResponseBean) {
             return body;
         }
-        return new ResponseBean(true,body);
+        return new ResponseBean(true,body,"100","");
     }
 }

@@ -1,0 +1,53 @@
+package com.springcloudbase.config;
+
+import org.hibernate.validator.HibernateValidator;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.http.converter.ResourceHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
+
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import java.util.Arrays;
+
+/**
+ * Created by Mirko on 2020/4/30.
+ */
+@Configuration
+public class CommonConfig {
+
+
+    @Bean
+    public MethodValidationPostProcessor methodValidationPostProcessor(@Qualifier("getValidator") @Lazy Validator validator) {
+        MethodValidationPostProcessor methodValidationPostProcessor = new MethodValidationPostProcessor();
+        methodValidationPostProcessor.setValidator(validator);
+        return methodValidationPostProcessor;
+    }
+
+    @Bean
+    @Lazy
+    public Validator getValidator(){
+        ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)
+                .configure()
+                // 快速失败 - 只要出现校验失败的情况，就立即结束校验，不再进行后续的校验
+                .failFast(true)
+//                .addProperty("hibernate.validator.fail_fast", "true")
+                .buildValidatorFactory();
+        return validatorFactory.getValidator();
+    }
+
+
+    /**
+     * http 消息转换器
+     * @return
+     */
+    @Bean
+    public HttpMessageConverters converters() {
+        return new HttpMessageConverters(false, Arrays.asList(new MappingJackson2HttpMessageConverter(), new ResourceHttpMessageConverter()));
+    }
+}

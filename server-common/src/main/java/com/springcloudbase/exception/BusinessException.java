@@ -10,13 +10,23 @@ public class BusinessException extends RuntimeException{
     private static final long serialVersionUID = 1L;
     protected String code;
     protected String msg;
-    protected String message;//打印出的日志信息
 
     public BusinessException(ResponseEnums enums, String message) {
         super();
         this.code = enums.getCode();
         this.msg = enums.getMsg();
-        this.message = message;
+    }
+
+    public BusinessException(String msg) {
+        super();
+        this.msg = msg;
+    }
+
+
+    public BusinessException(String msg,String code) {
+        super();
+        this.msg = msg;
+        this.code = code;
     }
 
     public BusinessException(ResponseEnums enums) {
@@ -24,7 +34,6 @@ public class BusinessException extends RuntimeException{
         this.code = enums.getCode();
         this.msg = enums.getMsg();
     }
-
 
     public String getCode() {
         return code;
@@ -44,27 +53,5 @@ public class BusinessException extends RuntimeException{
         this.msg = msg;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-
-
-
-    public BusinessException() {
-        super();
-    }
-
-    public BusinessException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public BusinessException(String message) {
-        super(message);
-    }
 
 }
