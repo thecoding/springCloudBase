@@ -1,6 +1,9 @@
 server:
   port: 13000
 spring:
+#  messages:
+#    basename: i18n/validations
+#    encoding: UTF-8
   application:
     name: user-server-api
 # redis 配置开始

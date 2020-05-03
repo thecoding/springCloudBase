@@ -79,8 +79,6 @@ public class UserController {
      */
     @RequestMapping("/validation")
     public String testValidation(@Validated @RequestBody UserRegisterInfo registerInfo){
-//        String errorMessage = bindingResult.getAllErrors().stream().findFirst().toString();
-//        log.error("errorMessage : {} ", errorMessage);
         return registerInfo.toString();
     }
 
@@ -98,7 +96,6 @@ public class UserController {
     public String getValidation(@RequestBody UserRegisterInfo userRegisterInfo) {
         Map<String, Validator> validationMap = ApplicationContextUtil.getApplicationContext().getBeansOfType(Validator.class);
         validationMap.entrySet().stream().map(e -> "userController -->   Validator -> "+ e.getKey() + " " + e.getValue()).forEach(System.out::println);
-
         return userRegisterInfo.toString();
     }
 

@@ -26,8 +26,9 @@ public class UserRegisterInfo implements Serializable {
      * {@link javax.validation.constraints.Null} 被注释的元素必须为 null
      * {@link javax.validation.constraints.NotBlank} 被注释的字符串非 null，并且必须包含一个非空白字符
      * {@link javax.validation.constraints.NotEmpty} 被注释的字符串的不能为 null 也不能为空
+     * 姓名不能为空
      */
-    @NotEmpty(message = "姓名不能为空")
+    @NotEmpty(message = "{javax.validations.NotEmpty.name}")
     private String name;
 
     /**

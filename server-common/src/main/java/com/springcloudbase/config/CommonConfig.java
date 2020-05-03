@@ -1,13 +1,17 @@
 package com.springcloudbase.config;
 
 import org.hibernate.validator.HibernateValidator;
+import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator;
+import org.springframework.validation.beanvalidation.MessageSourceResourceBundleLocator;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
 import javax.validation.Validation;
@@ -22,6 +26,10 @@ import java.util.Arrays;
 public class CommonConfig {
 
 
+//    @Autowired
+//    MessageSource messageSource;
+
+
     @Bean
     public MethodValidationPostProcessor methodValidationPostProcessor(@Qualifier("getValidator") @Lazy Validator validator) {
         MethodValidationPostProcessor methodValidationPostProcessor = new MethodValidationPostProcessor();
@@ -29,17 +37,28 @@ public class CommonConfig {
         return methodValidationPostProcessor;
     }
 
+
+    /**
+     * todo 国际化、不能切换
+     * @return
+     */
     @Bean
     @Lazy
     public Validator getValidator(){
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasename("i18n/validations");
+        messageSource.setDefaultEncoding("utf-8");
+        MessageSourceResourceBundleLocator messageSourceResourceBundleLocator = new MessageSourceResourceBundleLocator(messageSource);
+
         ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)
                 .configure()
+                .messageInterpolator(new LocaleContextMessageInterpolator(new ResourceBundleMessageInterpolator(messageSourceResourceBundleLocator)))
                 // 快速失败 - 只要出现校验失败的情况，就立即结束校验，不再进行后续的校验
                 .failFast(true)
-//                .addProperty("hibernate.validator.fail_fast", "true")
                 .buildValidatorFactory();
         return validatorFactory.getValidator();
     }
+
 
 
     /**
@@ -50,4 +69,5 @@ public class CommonConfig {
     public HttpMessageConverters converters() {
         return new HttpMessageConverters(false, Arrays.asList(new MappingJackson2HttpMessageConverter(), new ResourceHttpMessageConverter()));
     }
+
 }

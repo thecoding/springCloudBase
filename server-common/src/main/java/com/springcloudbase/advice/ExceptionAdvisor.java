@@ -5,6 +5,7 @@ import com.springcloudbase.exception.BusinessException;
 import com.springcloudbase.vo.result.ResponseBean;
 import com.springcloudbase.vo.result.ResponseEnums;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.net.ConnectException;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 /**
@@ -30,7 +32,7 @@ public class ExceptionAdvisor {
 
     /**
      * 请求参数类型错误异常的捕获
-     * 只要出现校验失败，就结束验证 {@link CommonConfig#getValidator()} todo 好像无效
+     * 只要出现校验失败，就结束验证 {@link CommonConfig#getValidator()}
      * @param e
      * @return
      */
@@ -39,7 +41,7 @@ public class ExceptionAdvisor {
     @ResponseStatus(value=HttpStatus.BAD_REQUEST)
     public ResponseBean<String> badRequest(BindException e){
         log.error("occurs error when execute method ,message {}",e.getMessage());
-        String message = e.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining());
+        String message = e.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(","));
         log.error("{}错误信息 {}","BindException", message);
         return new ResponseBean<>(false, ResponseEnums.BAD_REQUEST);
     }
@@ -55,7 +57,7 @@ public class ExceptionAdvisor {
     public ResponseBean<String> ConstraintViolationExceptionHandler(ConstraintViolationException e) {
         String message = e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.joining());
         log.info("{}错误信息{}", "ConstraintViolationException", message);
-        return new ResponseBean<>(false,"024",message);
+        return new ResponseBean<>(false,"",message);
     }
 
 
@@ -68,9 +70,11 @@ public class ExceptionAdvisor {
     @ResponseBody
     @ResponseStatus(value=HttpStatus.BAD_REQUEST)
     public ResponseBean MethodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+        Locale locale = LocaleContextHolder.getLocale();
+        log.info("local-info {} ", locale.toString());
         String message = e.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining());
         log.info("{}错误信息：{}", "MethodArgumentNotValidException", message);
-        return new ResponseBean<>(false,"024",message);
+        return new ResponseBean<>(false, "024", message);
     }
 
 
