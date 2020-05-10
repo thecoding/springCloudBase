@@ -1,11 +1,13 @@
 package com.springcloudbase.vo;
 
+import java.io.Serializable;
+
 /**
  * @author Mirko
  * @Description
  * @createTime 2020年02月19日 00:10:00
  */
-public class UserDataInfo {
+public class UserDataInfo implements Serializable {
 
     private long id;
     private String name;

@@ -51,13 +51,12 @@ public class RedisSessionController {
         userDataInfo.setId(234);
         userDataInfo.setName("test");
         redisUtil.set("test2", userDataInfo);
-        int i = 1/0;
         return true;
     }
 
     @RequestMapping("/redisGetObject")
     public UserDataInfo getObject(){
-        return (UserDataInfo) redisUtil.get("test1");
+        return (UserDataInfo) redisUtil.get("test2");
     }
 
 

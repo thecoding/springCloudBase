@@ -2,6 +2,8 @@ package com.springcloudbase.config;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheManager;
@@ -22,6 +24,7 @@ import java.time.Duration;
  * Created by Mirko on 2020/4/12.
  */
 @Configuration
+@ConditionalOnProperty("spring.redis.jedis")
 public class JedisRedisConfig {
 
     @Value("${spring.redis.database}")
