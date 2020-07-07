@@ -6,6 +6,7 @@ import com.springcloudbase.util.SessionUtil;
 import com.springcloudbase.vo.BaseUser;
 import com.springcloudbase.vo.UserDataInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by Mirko on 2020/4/12.
  */
 @RestController
+@RequestMapping("/redis")
 public class RedisSessionController {
 
+
+
     @Autowired
-    RedisUtil redisUtil;
+    RedisTemplate redisTemplate;
 
     @RequestMapping("/userId")
     public BaseUser createBaseUser(@RequestParam("userId") long userId){
@@ -45,18 +49,18 @@ public class RedisSessionController {
 
     /************redis 测试******************/
 
-    @RequestMapping("/redisSaveObject")
+    @RequestMapping("/save")
     public Object setObject(){
         UserDataInfo userDataInfo = new UserDataInfo();
         userDataInfo.setId(234);
         userDataInfo.setName("test");
-        redisUtil.set("test2", userDataInfo);
+        RedisUtil.getInstance().setRedisTemplate(redisTemplate).set("test2", userDataInfo);
         return true;
     }
 
-    @RequestMapping("/redisGetObject")
+    @RequestMapping("/get")
     public UserDataInfo getObject(){
-        return (UserDataInfo) redisUtil.get("test2");
+        return (UserDataInfo) RedisUtil.getInstance().setRedisTemplate(redisTemplate).get("test2");
     }
 
 

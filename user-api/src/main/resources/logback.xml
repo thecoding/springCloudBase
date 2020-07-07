@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false">
     <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
-    <property name="LOG_HOME" value="D:\github\springCloudBase\user-api" />
+    <property name="LOG_HOME" value="E:\github\springCloudBase\user-api" />
 
     <!-- 自定义日志内容 -->
     <conversionRule conversionWord="userId" converterClass="com.springcloudbase.log.LoginUserConverter"/>
