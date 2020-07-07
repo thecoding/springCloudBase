@@ -2,6 +2,8 @@ package com.springcloudbase.log;
 
 import ch.qos.logback.classic.pattern.MessageConverter;
 import ch.qos.logback.classic.spi.ILoggingEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
@@ -13,7 +15,7 @@ import java.util.Arrays;
  */
 public class LoginUserConverter extends MessageConverter {
 
-
+    private static final transient Logger logger = LoggerFactory.getLogger(LoginUserConverter.class.getName());
     /**
      * 日志信息通过convert方法都会打印出日志信息，如果只有某个包下面的才输出呢？
      * @param event
@@ -21,10 +23,10 @@ public class LoginUserConverter extends MessageConverter {
      */
     @Override
     public String convert(ILoggingEvent event) {
-        System.out.println("message --> " + event.getMessage());
-        System.out.println("threadName --> " + event.getThreadName());
-        System.out.println("getArgumentArray --> " + Arrays.toString(event.getArgumentArray()));
-        System.out.println("getLoggerName --> " + event.getLoggerName());
+        logger.debug("message --> " + event.getMessage());
+        logger.debug("threadName --> " + event.getThreadName());
+        logger.debug("getArgumentArray --> " + Arrays.toString(event.getArgumentArray()));
+        logger.debug("getLoggerName --> " + event.getLoggerName());
         return "";
     }
 }

@@ -1,5 +1,7 @@
-package com.springcloudbase.config;
+package com.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -17,6 +19,7 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import redis.clients.jedis.JedisPoolConfig;
 
+import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.time.Duration;
 
@@ -24,8 +27,15 @@ import java.time.Duration;
  * Created by Mirko on 2020/4/12.
  */
 @Configuration
-@ConditionalOnProperty("spring.redis.jedis")
 public class JedisRedisConfig {
+
+    private static final transient Logger log = LoggerFactory.getLogger(JedisRedisConfig.class.getName());
+
+    @PostConstruct
+    public void jedisInit(){
+        log.debug(" jedis init...");
+    }
+
 
     @Value("${spring.redis.database}")
     private int database;

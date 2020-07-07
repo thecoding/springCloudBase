@@ -1,6 +1,5 @@
 package com.springcloudbase.redis;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -16,8 +15,24 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class RedisUtil {
 
-    @Autowired
     RedisTemplate redisTemplate;
+
+    private static RedisUtil instance = new RedisUtil();
+
+    private RedisUtil(){
+
+    }
+
+    public static RedisUtil getInstance() {
+        return instance;
+    }
+
+
+    public RedisUtil setRedisTemplate(RedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+        return this;
+    }
+
 
     //=============================common============================
 

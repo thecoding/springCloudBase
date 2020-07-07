@@ -9,6 +9,7 @@ import com.springcloudbase.vo.BaseUser;
 import com.springcloudbase.vo.result.ResponseEnums;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -23,8 +24,7 @@ public class IdempotentFilter extends AbstractBaseFilter {
     private static String PREFIX = "TOKEN_USER_METHOD_";
 
     @Autowired
-    RedisUtil redisUtil;
-
+    RedisTemplate redisTemplate;
 
     @Override
     public boolean preExecute() {
@@ -33,11 +33,11 @@ public class IdempotentFilter extends AbstractBaseFilter {
         BaseUser baseUser = SessionUtil.getUser();
         if (token != null) {
             //TODO 类名需要修改
-            String str = (String) redisUtil.get(PREFIX + method.getClass().getSimpleName()+ baseUser.getUserId());
+            String str = (String) RedisUtil.getInstance().setRedisTemplate(redisTemplate).get(PREFIX + method.getClass().getSimpleName()+ baseUser.getUserId());
             if (StringUtils.isNotBlank(str)) {
                 throw new BusinessException(ResponseEnums.INVOKE_TIMES);
             }else{
-                redisUtil.set(PREFIX + method.getClass().getSimpleName()+ baseUser.getUserId(),"test", token.timeSecond());
+                RedisUtil.getInstance().setRedisTemplate(redisTemplate).set(PREFIX + method.getClass().getSimpleName()+ baseUser.getUserId(),"test", token.timeSecond());
             }
         }
         return true;
