@@ -1,6 +1,9 @@
 package com.springcloudbase.config;
 
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.weaver.ast.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportAware;
@@ -17,9 +20,11 @@ import java.util.Map;
 @Configuration
 public class TestConfig implements ImportAware {
 
+    private static final transient Logger log = LoggerFactory.getLogger(TestConfig.class);
+
     @PostConstruct
     public void init(){
-        System.out.println(" test config init");
+        log.debug(" test config init");
     }
 
     @Bean
