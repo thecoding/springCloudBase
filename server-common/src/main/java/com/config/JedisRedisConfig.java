@@ -14,9 +14,11 @@ import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 import javax.annotation.PostConstruct;
@@ -24,6 +26,13 @@ import java.io.Serializable;
 import java.time.Duration;
 
 /**
+ * 当前只是单实例连接redis，如果需要做redis读写分离，可以用
+ * {@link LettuceClientConfiguration.LettuceClientConfigurationBuilder#readFrom}
+ * 对事务的支持:
+ * 1. 开启事务管理 {@link org.springframework.transaction.annotation.EnableTransactionManagement}
+ * 2. 开启事务支持 {@link RedisTemplate#setEnableTransactionSupport(boolean)}
+ * 3. 注册事务管理器 {@link org.springframework.transaction.PlatformTransactionManager} 和jdbc事务管理共用
+ * {@see <a>https://docs.spring.io/spring-data/redis/docs/2.1.18.RELEASE/reference/html/#tx.spring</a>}
  * Created by Mirko on 2020/4/12.
  */
 @Configuration
@@ -59,7 +68,6 @@ public class JedisRedisConfig {
     /**
      * 连接池配置信息
      */
-
     @Bean
     public JedisPoolConfig jedisPoolConfig() {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
@@ -75,9 +83,16 @@ public class JedisRedisConfig {
         return jedisPoolConfig;
     }
 
+
+    @Bean
+    public JedisPool jedisPool(JedisPoolConfig jedisPoolConfig){
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, password);
+        return jedisPool;
+    }
+
+
     /**
      * Jedis 连接
-     *
      * @param jedisPoolConfig
      * @return
      */
@@ -85,6 +100,7 @@ public class JedisRedisConfig {
     public JedisConnectionFactory jedisConnectionFactory(JedisPoolConfig jedisPoolConfig) {
         JedisClientConfiguration jedisClientConfiguration = JedisClientConfiguration.builder().usePooling()
                 .poolConfig(jedisPoolConfig).and().readTimeout(Duration.ofMillis(timeout)).build();
+
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
         redisStandaloneConfiguration.setHostName(host);
         redisStandaloneConfiguration.setPort(port);
@@ -95,7 +111,6 @@ public class JedisRedisConfig {
 
     /**
      * 缓存管理器
-     *
      * @param connectionFactory
      * @return
      */
@@ -112,4 +127,5 @@ public class JedisRedisConfig {
         redisTemplate.setConnectionFactory(jedisConnectionFactory(jedisPoolConfig()));
         return redisTemplate;
     }
+
 }

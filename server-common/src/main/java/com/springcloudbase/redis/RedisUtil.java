@@ -1,5 +1,6 @@
 package com.springcloudbase.redis;
 
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -12,7 +13,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Mirko on 2020/4/12.
  */
-@Component
 public class RedisUtil {
 
     RedisTemplate redisTemplate;
@@ -20,7 +20,6 @@ public class RedisUtil {
     private static RedisUtil instance = new RedisUtil();
 
     private RedisUtil(){
-
     }
 
     public static RedisUtil getInstance() {
@@ -29,6 +28,15 @@ public class RedisUtil {
 
 
     public RedisUtil setRedisTemplate(RedisTemplate redisTemplate) {
+        setRedisTemplate(redisTemplate, 15);
+        return this;
+    }
+
+
+    public RedisUtil setRedisTemplate(RedisTemplate redisTemplate, int dataBase) {
+        JedisConnectionFactory connectionFactory = (JedisConnectionFactory) redisTemplate.getConnectionFactory();
+        connectionFactory.setDatabase(dataBase);
+        redisTemplate.setConnectionFactory(connectionFactory);
         this.redisTemplate = redisTemplate;
         return this;
     }
