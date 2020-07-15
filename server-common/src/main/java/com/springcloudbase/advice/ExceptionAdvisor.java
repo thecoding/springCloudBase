@@ -43,7 +43,7 @@ public class ExceptionAdvisor {
         log.error("occurs error when execute method ,message {}",e.getMessage());
         String message = e.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(","));
         log.error("{}错误信息 {}","BindException", message);
-        return new ResponseBean<>(false, ResponseEnums.BAD_REQUEST);
+        return new ResponseBean<>(false, ResponseEnums.BAD_REQUEST.getCode(),message);
     }
 
     /**

@@ -36,6 +36,6 @@ public class TestConfig implements ImportAware {
 
     @Override
     public void setImportMetadata(AnnotationMetadata annotationMetadata) {
-        Map<String, Object> annotationAttributes = annotationMetadata.getAnnotationAttributes(ApplicationContextConfig.class.getName());
+        Map<String, Object> annotationAttributes = annotationMetadata.getAnnotationAttributes(UserConfig.class.getName());
     }
 }

@@ -1,8 +1,11 @@
 package com.springcloudbase.config;
 
+import com.springcloudbase.enable.EnableRedisSession;
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -13,8 +16,9 @@ import java.util.Map;
  * Created by Mirko on 2020/4/11.
  */
 @Configuration
-@ConditionalOnProperty("spring.redistest")
-public class UserConfig{
+@Import({TestConfig.class})
+@EnableRedisSession
+public class UserConfig implements BeanNameAware {
 
 
     @PostConstruct
@@ -30,4 +34,8 @@ public class UserConfig{
         return map;
     }
 
+    @Override
+    public void setBeanName(String name) {
+        System.out.printf("name {}",name);
+    }
 }

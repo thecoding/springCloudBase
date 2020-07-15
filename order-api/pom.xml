@@ -13,6 +13,7 @@
 
 
     <dependencies>
+
         <dependency>
             <groupId>com.springcloud.base</groupId>
             <artifactId>server-common</artifactId>

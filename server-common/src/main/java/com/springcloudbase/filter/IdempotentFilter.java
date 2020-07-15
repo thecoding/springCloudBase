@@ -23,7 +23,7 @@ public class IdempotentFilter extends AbstractBaseFilter {
 
     private static String PREFIX = "TOKEN_USER_METHOD_";
 
-    @Autowired
+    @Autowired(required = false)
     RedisTemplate redisTemplate;
 
     @Override

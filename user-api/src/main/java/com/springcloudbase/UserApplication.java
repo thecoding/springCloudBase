@@ -6,6 +6,7 @@ import com.springcloudbase.config.TestConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 
@@ -20,6 +21,8 @@ import org.springframework.context.annotation.FilterType;
 //排除加载TestConfig.class
 @ComponentScan(value = "com.springcloudbase", excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
         classes = { TestConfig.class})})
+//开启FeignClients调用
+@EnableFeignClients
 public class UserApplication {
 
     public static void main(String[] args) {
