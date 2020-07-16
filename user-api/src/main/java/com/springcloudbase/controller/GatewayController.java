@@ -3,6 +3,7 @@ package com.springcloudbase.controller;
 
 import cn.hutool.json.JSONUtil;
 import com.google.common.collect.Maps;
+import com.springcloudbase.service.other.OtherServiceExtends;
 import com.springcloudbase.service.other.OtherServiceInterface;
 import com.springcloudbase.vo.result.ResponseBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,22 @@ import java.util.Map;
 @RequestMapping(value = "/gateway")
 public class GatewayController {
 
-    @Autowired
+    @Autowired(required = false)
     OtherServiceInterface otherServiceInterface;
+
+    @Autowired
+    OtherServiceExtends otherServiceExtends;
+
+    @GetMapping(value = "/order2")
+    public Map getOrder2(){
+        String order2 = otherServiceExtends.getHelloTest("order2");
+        Map map = Maps.newHashMap();
+        map.put("other-return", order2);
+        map.put("user-server", "test");
+        return map;
+    }
+
+
 
     @GetMapping(value = "/order1")
     public Map getOrder1(){

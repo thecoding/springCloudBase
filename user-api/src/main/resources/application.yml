@@ -26,7 +26,9 @@ spring:
 # redis 配置结束
 
 
-
+ribbon:
+  ConnectTimeout: 10000
+  ReadTimeout: 20000
 
 eureka:
   client:

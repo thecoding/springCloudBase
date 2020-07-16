@@ -13,3 +13,8 @@ eureka:
 spring:
   application:
     name: other-api
+# 统一处理结果返回
+responseBodyAdvice:
+  is-open: true
+  # com.springcloudbase.advice.ResponseAdvisor，多个包配置'com.springcloud.other.provider.controller,com.springcloud.other.provider.service.impl'
+  basePackages:  "com.springcloud.other.provider.controller"
