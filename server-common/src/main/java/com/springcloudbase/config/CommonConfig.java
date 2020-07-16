@@ -81,13 +81,13 @@ public class CommonConfig implements ApplicationContextAware {
      * 解决方案：试试在feign 配置自定义的converters
      * @return
      */
-    @Bean
-    public HttpMessageConverters converters() {
-        List<HttpMessageConverter<?>> converters = Lists.newArrayList();
-        converters.add(new MappingJackson2HttpMessageConverter());
-        converters.add(new ResourceHttpMessageConverter());
-        return new HttpMessageConverters(false, converters);
-    }
+//    @Bean
+//    public HttpMessageConverters converters() {
+//        List<HttpMessageConverter<?>> converters = Lists.newArrayList();
+//        converters.add(new MappingJackson2HttpMessageConverter());
+//        converters.add(new ResourceHttpMessageConverter());
+//        return new HttpMessageConverters(false, converters);
+//    }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

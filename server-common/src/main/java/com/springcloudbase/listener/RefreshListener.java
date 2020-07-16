@@ -1,5 +1,6 @@
 package com.springcloudbase.listener;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -10,6 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
  * Created by Mirko on 2020/5/2.
  */
 @Component
+@Slf4j
 public class RefreshListener {
 
     @Autowired
@@ -19,6 +21,8 @@ public class RefreshListener {
     public void handleContextRefresh(ContextRefreshedEvent event){
         requestMappingHandlerAdapter.getMessageConverters()
                 .stream()
-                .forEach(System.out::println);
+                .forEach(v -> {
+                    log.debug("所有加载的messageConverters{}",v.getClass());
+                });
     }
 }
