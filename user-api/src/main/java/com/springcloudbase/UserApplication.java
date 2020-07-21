@@ -1,7 +1,5 @@
 package com.springcloudbase;
 
-import com.config.JedisRedisConfig;
-import com.config.SessionConfig;
 import com.springcloudbase.config.TestConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

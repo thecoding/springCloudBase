@@ -16,7 +16,6 @@ import java.util.Map;
 /**
  * Created by Mirko on 2020/3/17.
  */
-@Aspect
 @Configuration
 public class TestConfig implements ImportAware {
 
