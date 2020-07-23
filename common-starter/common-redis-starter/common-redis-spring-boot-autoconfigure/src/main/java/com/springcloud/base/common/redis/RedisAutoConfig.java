@@ -1,13 +1,16 @@
 package com.springcloud.base.common.redis;
 
+import com.springcloud.base.common.redis.util.RedisUtil;
 import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,10 +21,16 @@ import org.springframework.data.redis.connection.RedisSentinelConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnection;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisOperations;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPoolConfig;
 
+import javax.annotation.PostConstruct;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -29,7 +38,7 @@ import java.util.List;
 
 @Configuration
 @AutoConfigureBefore(RedisAutoConfiguration.class)
-@ConditionalOnClass({ JedisConnection.class, RedisOperations.class, RedisProperties.Jedis.class })
+@ConditionalOnClass({ JedisConnection.class, RedisOperations.class, Jedis.class })
 @EnableConfigurationProperties(MyRedisProperties.class)
 public class RedisAutoConfig {
 
@@ -189,6 +198,55 @@ public class RedisAutoConfig {
             config.setNumTestsPerEvictionRun(props.getNumTestsPerEvictionRun());
 
             return config;
+        }
+
+    }
+    /**
+     * Standard Redis configuration.
+     */
+    @Configuration
+    protected static class RedisConfiguration {
+
+        @Bean
+        @ConditionalOnMissingBean(name = "redisTemplate")
+        public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory){
+            RedisTemplate<Object, Object> template = new RedisTemplate<Object, Object>();
+            template.setConnectionFactory(redisConnectionFactory);
+
+            template.setKeySerializer(new StringRedisSerializer());
+            template.setHashKeySerializer(new StringRedisSerializer());
+            template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+            template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+            template.afterPropertiesSet();
+            return template;
+        }
+
+        @Bean
+        @ConditionalOnMissingBean(StringRedisTemplate.class)
+        public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+            StringRedisTemplate template = new StringRedisTemplate();
+            template.setConnectionFactory(redisConnectionFactory);
+            return template;
+        }
+
+    }
+
+    @Bean
+    @ConditionalOnBean(RedisTemplate.class)
+    public RedisUtilConfig redisUtilConfig() {
+        return new RedisUtilConfig();
+    }
+
+    public class RedisUtilConfig {
+        private final Logger logger = LoggerFactory.getLogger(RedisUtilConfig.class);
+        @Autowired
+        private RedisTemplate redisTemplate;
+
+        @PostConstruct
+        public void afterPropertiesSet() {
+            //往redis中注入，这里面封装了各种静态方法。
+            RedisUtil.getInstance().setRedisTemplate(redisTemplate);
+            JedisConnectionFactory connectionFactory = (JedisConnectionFactory) redisTemplate.getConnectionFactory();
         }
 
     }

@@ -4,13 +4,15 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.springcloud.base</groupId>
-        <artifactId>springCloudBase</artifactId>
+        <artifactId>common-starter</artifactId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>com.springcloud.base</groupId>
     <artifactId>common-redis-starter</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>common-redis-starter</name>
     <description>spring boot redis starter</description>
 
@@ -18,25 +20,5 @@
         <module>common-redis-spring-boot-autoconfigure</module>
         <module>common-redis-spring-boot-starter</module>
     </modules>
-
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
-
-    <dependencyManagement>
-        <dependencies>
-
-
-        </dependencies>
-    </dependencyManagement>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

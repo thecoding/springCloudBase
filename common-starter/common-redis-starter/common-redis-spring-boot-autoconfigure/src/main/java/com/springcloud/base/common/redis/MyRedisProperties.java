@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.List;
 
-@ConfigurationProperties(prefix = "spring.redis")
+@ConfigurationProperties(prefix = "redis")
 public class MyRedisProperties {
     /**
      * Database index used by the connection factory.

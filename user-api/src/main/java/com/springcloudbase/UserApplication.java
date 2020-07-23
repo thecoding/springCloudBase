@@ -15,7 +15,7 @@ import org.springframework.context.annotation.FilterType;
  * @Description
  * @createTime 2020年02月19日 00:08:00
  */
-@SpringBootApplication(exclude = {RedisAutoConfiguration.class})
+@SpringBootApplication
 //排除加载TestConfig.class
 @ComponentScan(value = "com.springcloudbase", excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
         classes = { TestConfig.class})})

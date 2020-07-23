@@ -1,8 +1,6 @@
 package com.springcloudbase.config;
 
-import com.springcloudbase.enable.EnableRedisSession;
 import org.springframework.beans.factory.BeanNameAware;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -17,7 +15,6 @@ import java.util.Map;
  */
 @Configuration
 @Import({TestConfig.class})
-@EnableRedisSession
 public class UserConfig implements BeanNameAware {
 
 

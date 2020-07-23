@@ -1,24 +1,17 @@
 package com.springcloudbase.controller;
 
+import com.springcloud.base.common.redis.util.RedisUtil;
 import com.springcloudbase.annotation.Token;
-import com.springcloudbase.redis.RedisUtil;
 import com.springcloudbase.util.SessionUtil;
 import com.springcloudbase.vo.BaseUser;
 import com.springcloudbase.vo.UserDataInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.data.redis.connection.jedis.JedisUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 
 /**
  *
@@ -31,7 +24,7 @@ public class RedisSessionController {
 
 
 
-    @Autowired
+    @Autowired(required = false)
     RedisTemplate redisTemplate;
 
     @RequestMapping("/userId")
@@ -46,6 +39,8 @@ public class RedisSessionController {
     public BaseUser getUserInfo() {
         return SessionUtil.getUser();
     }
+
+
 
     @RequestMapping("/loginOut")
     public boolean loginOut(){

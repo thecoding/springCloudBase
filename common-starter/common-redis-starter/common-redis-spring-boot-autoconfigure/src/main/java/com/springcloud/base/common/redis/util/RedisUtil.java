@@ -1,8 +1,7 @@
-package com.springcloudbase.redis;
+package com.springcloud.base.common.redis.util;
 
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;

@@ -13,14 +13,7 @@ import javax.annotation.Resource;
  * Created by Mirko on 2020/4/12.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = UserApplication.class)
+@SpringBootTest
 public class RedisTest {
 
-    @Resource
-    RedisUtil redisUtil;
-
-    @Test
-    public void test1(){
-        redisUtil.set("redis", "redisTest");
-    }
 }
