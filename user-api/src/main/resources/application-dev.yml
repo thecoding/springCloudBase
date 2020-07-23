@@ -13,3 +13,8 @@ redis:
 session:
   redis:
     namespace: spring-session
+
+
+ribbon:
+  ConnectTimeout: 10000
+  ReadTimeout: 20000

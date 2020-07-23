@@ -9,16 +9,6 @@ spring:
     name: user-server-api
 
 
-ribbon:
-  ConnectTimeout: 10000
-  ReadTimeout: 20000
 
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone: http://localhost:8080/eureka/
-#  instance:
-#    instance-id: ${spring.cloud.client.ip-address}:${server.port}
-#    metadata-map:
-#      version: 1.0
-#      is-test: true
+
+
