@@ -1,4 +1,4 @@
 spring:
   profiles:
-    active: dev,eureka  #多个用 , 来分隔
+    active: dev  #多个用 , 来分隔
 
