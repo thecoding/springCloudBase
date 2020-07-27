@@ -1,14 +1,12 @@
-
-
-
-
-
+spring:
+  profiles: eureka
 eureka:
   client:
-    service-url:
-      defaultZone: http://localhost:8080/eureka/
+#    service-url:
+#      defaultZone: http://localhost:8080/eureka/
   instance:
     instance-id: ${spring.cloud.client.ip-address}:${server.port}
     metadata-map:
       version: 1.0
       is-test: true
+# 是否加载eurekaClient需要参考com.springcloudbase.config.EurekaConfig
