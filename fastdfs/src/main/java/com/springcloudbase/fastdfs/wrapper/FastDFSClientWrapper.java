@@ -21,7 +21,7 @@ import java.util.Set;
 @Component
 public class FastDFSClientWrapper {
 
-    private final Logger logger = (Logger) LoggerFactory.getLogger(FastDFSClientWrapper.class);
+    private final Logger logger = LoggerFactory.getLogger(FastDFSClientWrapper.class);
 
     @Autowired
     private FastFileStorageClient fastFileStorageClient;

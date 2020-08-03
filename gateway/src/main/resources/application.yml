@@ -1,55 +1,15 @@
 server:
   port: 5000
 
-
-##### 下面是基本用法
-#spring:
-#  cloud:
-#    gateway:
-#      routes:
-#      - id: user_route
-#        uri: http://localhost:2101  # 目的地址
-#        predicates:
-#        - Path=/user/**  #请求地址：http://localhost:5000/user/**
-#        filters:
-#        - StripPrefix=1  #过滤规则：请求地址为：http://localhost:5000/user/** -> http://localhost:2101/userInfo 去掉一个路径
-
-
-######  以下是加入eureka的内容
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8080/eureka/
-
-
 spring:
+  profiles: single
   application:
     name: gateway-server
-  cloud:
+management:
+  endpoint:
     gateway:
-      routes:
-        - id: user_route
-          uri: lb://USER-SERVER-API  # 目的地址  lb表示loadBalance 负载均衡
-          predicates:
-            - Path=/user/**  #请求地址：http://localhost:5000/user/**
-          filters:
-            - StripPrefix=1
-#        - id: order_route
-#          uri: lb://OrderServer
-#          predicates:
-#            - Path=/order/**
-#          filters:
-#            - StripPrefix=1
-#上面这段配置的意思是，配置了一个 id 为 user_route 的路由规则，
-#当访问地址 http://localhost:5000/user/* 时会自动转发到地址：http://localhost:2101/*
-#配置完成启动项目即可在浏览器访问进行测试，这里是没有 加入eureka注册中心的
-logging:
-  level:
-    root: info
-    org:
-      springframework:
-        cloud:
-          gateway: debug
-
-
-
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: gateway

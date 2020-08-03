@@ -1,0 +1,18 @@
+
+
+server:
+  port: 5000
+
+spring:
+  profiles: single
+  application:
+    name: gateway-server
+  cloud:
+    gateway:
+      routes:
+        - id: user_route
+          uri: https://www.baidu.com?s=
+          predicates:
+            - Path=/baidu/**
+
+

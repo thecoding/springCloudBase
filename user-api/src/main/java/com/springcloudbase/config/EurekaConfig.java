@@ -27,11 +27,11 @@ public class EurekaConfig {
      */
     @Slf4j
     @Configuration
-    @ConditionalOnProperty(prefix = "eureka.client.service-url", value = "defaultZone", matchIfMissing = true)
+    @ConditionalOnProperty(name = {"eureka.client.service-url.defaultZone"}, matchIfMissing = true)
     @EnableAutoConfiguration(exclude = {EurekaClientAutoConfiguration.class})
     public static class EurekaAutoConfig{
         public EurekaAutoConfig(){
-            log.warn("没有开启eureka..");
+            log.debug("没有开启eureka..");
         }
     }
 
