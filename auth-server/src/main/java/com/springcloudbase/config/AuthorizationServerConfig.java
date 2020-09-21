@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -55,17 +56,21 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         //token
         endpoints.tokenStore(tokenStore())
+                //todo 待解析
                 .authorizationCodeServices(authorizationCodeServices())
+                //
                 .approvalStore(approvalStore())
+                //
                 .exceptionTranslator(customExceptionTranslator())
                 //token增强
                 .tokenEnhancer(tokenEnhancerChain())
                 .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService)
-                //update by joe_chen add  granter
+                //自定义授权
                 .tokenGranter(tokenGranter(endpoints));;
 
     }
+
 
     private TokenEnhancer tokenEnhancerChain() {
         return null;
