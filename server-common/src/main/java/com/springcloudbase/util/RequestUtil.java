@@ -1,6 +1,6 @@
 package com.springcloudbase.util;
 
-import com.springcloudbase.vo.result.ResponseBean;
+import com.springcloudbase.vo.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -44,10 +44,10 @@ public class RequestUtil {
      * 设置线程返回结果
      * @param resultInfo
      */
-    public static void setResult(ResponseBean resultInfo){
+    public static void setResult(Result resultInfo){
         HttpServletRequest request = getRequest();
         if (null != request && null != resultInfo) {
-            request.setAttribute(ResponseBean.class.getSimpleName(),resultInfo);
+            request.setAttribute(Result.class.getSimpleName(),resultInfo);
         }
     }
 
@@ -55,10 +55,10 @@ public class RequestUtil {
      * 获取返回结果
      * @return
      */
-    public static ResponseBean getResult(){
+    public static Result getResult(){
         HttpServletRequest request = getRequest();
         if (null != request) {
-            return (ResponseBean)request.getAttribute(ResponseBean.class.getSimpleName());
+            return (Result)request.getAttribute(Result.class.getSimpleName());
         }
         return null;
     }

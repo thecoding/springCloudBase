@@ -1,7 +1,6 @@
 package com.springcloudbase.service.other;
 
-import com.springcloudbase.vo.result.ResponseBean;
-import org.springframework.cloud.openfeign.FeignClient;
+import com.springcloudbase.vo.result.Result;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -9,5 +8,5 @@ import org.springframework.web.bind.annotation.*;
 public interface OtherServiceInterface{
 
     @GetMapping(value = "/user/hello")
-    ResponseBean<String> getHelloTest(@RequestParam(value = "name") String name);
+    Result<String> getHelloTest(@RequestParam(value = "name") String name);
 }

@@ -3,11 +3,9 @@ package com.springcloudbase.advice;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springcloudbase.annotation.IgnoreResponse;
-import com.springcloudbase.vo.result.ResponseBean;
+import com.springcloudbase.vo.result.Result;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.MethodParameter;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
@@ -66,7 +64,7 @@ public class ResponseAdvisor implements ResponseBodyAdvice<Object> {
         IgnoreResponse classIgnore = declaringClass.getAnnotation(IgnoreResponse.class);
         IgnoreResponse methodIgnore = returnType.getMethod().getAnnotation(IgnoreResponse.class);
         //如果没有加注解，或者返回类型是ResponseBean类型，就不走统一返回
-        if (classIgnore != null || methodIgnore != null || ResponseBean.class.equals(returnType.getGenericParameterType())) {
+        if (classIgnore != null || methodIgnore != null || Result.class.equals(returnType.getGenericParameterType())) {
             return false;
         }
         for (int i = 0; i < basePackages.length; i++) {
@@ -112,7 +110,7 @@ public class ResponseAdvisor implements ResponseBodyAdvice<Object> {
         if (body instanceof Resource) {
             return body;
         }
-        ResponseBean<Object> result = new ResponseBean<>();
+        Result<Object> result = new Result<>();
         result.setData(body);
         if (methodParameter.getGenericParameterType().equals(String.class)) {
             try {

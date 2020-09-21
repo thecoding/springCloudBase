@@ -5,7 +5,7 @@ import cn.hutool.json.JSONUtil;
 import com.google.common.collect.Maps;
 import com.springcloudbase.service.other.OtherServiceExtends;
 import com.springcloudbase.service.other.OtherServiceInterface;
-import com.springcloudbase.vo.result.ResponseBean;
+import com.springcloudbase.vo.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,10 +36,10 @@ public class GatewayController {
 
     @GetMapping(value = "/order1")
     public Map getOrder1(){
-        ResponseBean<String> responseBean = otherServiceInterface.getHelloTest("user");
+        Result<String> result = otherServiceInterface.getHelloTest("user");
         Map map = Maps.newHashMap();
-        map.put("返回的值", JSONUtil.toJsonStr(responseBean));
-        map.put("data", responseBean.getData());
+        map.put("返回的值", JSONUtil.toJsonStr(result));
+        map.put("data", result.getData());
         map.put("user-server", "test");
         return map;
     }

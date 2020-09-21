@@ -11,6 +11,7 @@
 
 
     <modules>
+        <module>project-dependencies</module>
         <module>auth-server</module>
         <module>common</module>
         <module>user-api</module>
@@ -20,6 +21,7 @@
         <module>order-api</module>
         <module>server-common</module>
         <module>other-api</module>
+        <module>common-starter</module>
     </modules>
 
 

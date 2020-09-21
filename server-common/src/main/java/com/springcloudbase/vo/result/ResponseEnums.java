@@ -1,11 +1,14 @@
 package com.springcloudbase.vo.result;
 
+import com.springcloudbase.exception.ErrorType;
+
 /**
  * Created by Mirko on 2020/4/12.
  */
-public enum ResponseEnums {
+public enum ResponseEnums implements ErrorType {
 
     SYSTEM_ERROR("-001","系统异常"),
+    SYSTEM_SUCCESS("000","处理成功"),
     BAD_REQUEST("-002","错误的请求参数"),
     NOT_FOUND("-003","找不到请求路径！"),
     CONNECTION_ERROR("-004","网络连接请求失败！"),

@@ -1,8 +1,9 @@
 package com.springcloudbase.advice;
 
 import com.springcloudbase.config.CommonConfig;
+import com.springcloudbase.exception.BaseException;
 import com.springcloudbase.exception.BusinessException;
-import com.springcloudbase.vo.result.ResponseBean;
+import com.springcloudbase.vo.result.Result;
 import com.springcloudbase.vo.result.ResponseEnums;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -39,11 +40,11 @@ public class ExceptionAdvisor {
     @ExceptionHandler(value={BindException.class})
     @ResponseBody
     @ResponseStatus(value=HttpStatus.BAD_REQUEST)
-    public ResponseBean<String> badRequest(BindException e){
+    public Result badRequest(BindException e){
         log.error("occurs error when execute method ,message {}",e.getMessage());
         String message = e.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(","));
         log.error("{}错误信息 {}","BindException", message);
-        return new ResponseBean<>(false, ResponseEnums.BAD_REQUEST.getCode(),message);
+        return Result.fail(ResponseEnums.BAD_REQUEST, message);
     }
 
     /**
@@ -54,10 +55,10 @@ public class ExceptionAdvisor {
     @ExceptionHandler(value={ConstraintViolationException.class})
     @ResponseBody
     @ResponseStatus(value=HttpStatus.BAD_REQUEST)
-    public ResponseBean<String> ConstraintViolationExceptionHandler(ConstraintViolationException e) {
+    public Result ConstraintViolationExceptionHandler(ConstraintViolationException e) {
         String message = e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.joining());
         log.info("{}错误信息{}", "ConstraintViolationException", message);
-        return new ResponseBean<>(false,"",message);
+        return Result.fail(ResponseEnums.BAD_REQUEST, message);
     }
 
 
@@ -69,12 +70,12 @@ public class ExceptionAdvisor {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
     @ResponseStatus(value=HttpStatus.BAD_REQUEST)
-    public ResponseBean MethodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+    public Result MethodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
         Locale locale = LocaleContextHolder.getLocale();
         log.info("local-info {} ", locale.toString());
         String message = e.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining());
         log.info("{}错误信息：{}", "MethodArgumentNotValidException", message);
-        return new ResponseBean<>(false, "024", message);
+        return Result.fail(ResponseEnums.BAD_REQUEST, message);
     }
 
 
@@ -119,13 +120,13 @@ public class ExceptionAdvisor {
     @ExceptionHandler(value={BusinessException.class})
     @ResponseBody
     @ResponseStatus(value=HttpStatus.INTERNAL_SERVER_ERROR)
-    public <T> ResponseBean<T> sendError(BusinessException exception, HttpServletRequest request){
+    public Result sendError(BaseException exception, HttpServletRequest request){
         String requestURI = request.getRequestURI();
-        log.error("occurs error when execute url ={} ,message {}",requestURI,exception.getMsg());
+        log.error("occurs error when execute url ={} ,message {}", requestURI,exception.getErrorType().getMsg());
         if (log.isDebugEnabled()) {
             exception.printStackTrace();
         }
-        return new ResponseBean<T>(false, exception.getCode(), exception.getMsg());
+        return Result.fail(exception.getErrorType());
     }
     /**
      * 数据库操作出现异常
@@ -135,9 +136,9 @@ public class ExceptionAdvisor {
     @ExceptionHandler(value={SQLException.class, DataAccessException.class})
     @ResponseBody
     @ResponseStatus(value= HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseBean<String> systemError(Exception e){
-        log.error("occurs error when execute method ,message {}",e.getMessage());
-        return new ResponseBean<>(false, ResponseEnums.DATABASE_ERROR);
+    public Result systemError(Exception e){
+        log.error("occurs error when execute method ,message {}", e.getMessage());
+        return Result.fail(ResponseEnums.DATABASE_ERROR);
     }
     /**
      * 网络连接失败！
@@ -147,18 +148,18 @@ public class ExceptionAdvisor {
     @ExceptionHandler(value={ConnectException.class})
     @ResponseBody
     @ResponseStatus(value=HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseBean<String> connect(Exception e){
+    public Result connect(Exception e){
         log.error("occurs error when execute method ,message {}",e.getMessage());
-        return new ResponseBean<>(false, ResponseEnums.CONNECTION_ERROR);
+        return Result.fail(ResponseEnums.CONNECTION_ERROR);
     }
 
     @ExceptionHandler(value={Exception.class})
     @ResponseBody
     @ResponseStatus(value=HttpStatus.METHOD_NOT_ALLOWED)
-    public ResponseBean<String> notAllowed(Exception e){
+    public Result notAllowed(Exception e){
         log.error("error --> ", e);
         log.error("occurs error when execute method ,message {}",e.getMessage());
-        return new ResponseBean<>(false, ResponseEnums.METHOD_NOT_ALLOWED);
+        return Result.fail(ResponseEnums.METHOD_NOT_ALLOWED);
     }
 
 }

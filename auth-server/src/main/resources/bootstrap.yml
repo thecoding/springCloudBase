@@ -1,0 +1,5 @@
+server:
+  port: ${server.point:11000}
+spring:
+  application:
+    name: authorization-server
