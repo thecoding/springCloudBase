@@ -2,8 +2,8 @@ package com.springcloud.other.provider.controller;
 
 
 import com.google.common.collect.Maps;
-import com.springcloudbase.annotation.IgnoreResponse;
-import com.springcloudbase.util.StringUtil;
+import com.springcloudbase.webserver.annotation.IgnoreResponse;
+import com.springcloudbase.webserver.util.StringUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

@@ -16,7 +16,7 @@
         <module>common</module>
         <module>user-api</module>
         <module>fastdfs</module>
-        <module>eureka-server</module>
+<!--        <module>eureka-server</module>-->
         <module>gateway</module>
         <module>order-api</module>
         <module>server-common</module>

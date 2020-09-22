@@ -10,6 +10,6 @@
     > 通过自定义enable注解方式来解决  
 3. 增加了统一日志返回。yml配置是否开启，并且指定包下有效，注解排除指定类
     * com.springcloudbase.advice.ResponseAdvisor返回结果做了处理，不需要额外再添加messageConverter，使用springBoot自带的就行
-    * com.springcloudbase.annotation.IgnoreResponse
+    * IgnoreResponse
     * yml配置 responseBodyAdvice.is-open缺省为false,responseBodyAdvice.basePackages
     

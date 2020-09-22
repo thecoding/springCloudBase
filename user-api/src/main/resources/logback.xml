@@ -4,7 +4,7 @@
     <property name="LOG_HOME" value="E:\github\springCloudBase\user-api" />
 
     <!-- 自定义日志内容 -->
-    <conversionRule conversionWord="userId" converterClass="com.springcloudbase.log.LoginUserConverter"/>
+    <conversionRule conversionWord="userId" converterClass="com.springcloudbase.webserver.log.LoginUserConverter"/>
 
     <!-- 控制台输出 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
