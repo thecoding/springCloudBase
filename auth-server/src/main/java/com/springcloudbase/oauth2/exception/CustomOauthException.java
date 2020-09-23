@@ -1,6 +1,7 @@
 package com.springcloudbase.oauth2.exception;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.springcloudbase.base.vo.Result;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;

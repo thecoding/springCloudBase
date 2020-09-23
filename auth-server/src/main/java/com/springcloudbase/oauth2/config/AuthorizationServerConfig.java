@@ -1,15 +1,22 @@
 package com.springcloudbase.oauth2.config;
 
-import com.springcloudbase.webserver.oauth2.enhancer.CustomTokenEnhancer;
+import com.springcloudbase.oauth2.exception.CustomWebResponseExceptionTranslator;
+import com.springcloudbase.oauth2.oauth2.enhancer.CustomTokenEnhancer;
+import com.springcloudbase.oauth2.oauth2.granter.MobileTokenGranter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.CompositeTokenGranter;
+import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
@@ -23,6 +30,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import javax.sql.DataSource;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Mirko
@@ -30,6 +38,7 @@ import java.util.Arrays;
  * @createTime 2020年09月20日 00:15:00
  */
 @Configuration
+@EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
 
@@ -39,6 +48,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Value("${jwt.signingKey}")
     private String signingKey;
+
+    AuthenticationManager authenticationManager;
+
+    @Autowired
+    UserDetailsService userDetailsService;
+
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
@@ -77,9 +92,21 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     }
 
+
+    /***
+     * 自定义token认证器
+     * @param endpoints
+     * @return
+     */
+    private TokenGranter tokenGranter(AuthorizationServerEndpointsConfigurer endpoints) {
+        List<TokenGranter> tokenGranters = Arrays.asList(endpoints.getTokenGranter());
+        tokenGranters.add(new MobileTokenGranter(authenticationManager, endpoints.getTokenServices(), endpoints.getClientDetailsService(),endpoints.getOAuth2RequestFactory()));
+        return new CompositeTokenGranter(tokenGranters);
+    }
+
     @Bean
     public WebResponseExceptionTranslator<OAuth2Exception> customExceptionTranslator() {
-
+        return new CustomWebResponseExceptionTranslator();
     }
 
 
@@ -137,7 +164,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         return converter;
     }
 
-    /*****************/
 
 
 }

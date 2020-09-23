@@ -1,5 +1,6 @@
 package com.springcloudbase.oauth2.exception;
 
+import com.springcloudbase.base.exception.ErrorType;
 import lombok.Getter;
 
 
@@ -28,11 +29,11 @@ public enum AuthErrorType implements ErrorType {
     /**
      * 错误类型描述信息
      */
-    private String mesg;
+    private String msg;
 
-    AuthErrorType(String code, String mesg) {
+    AuthErrorType(String code, String msg) {
         this.code = code;
-        this.mesg = mesg;
+        this.msg = msg;
     }
 
 }
