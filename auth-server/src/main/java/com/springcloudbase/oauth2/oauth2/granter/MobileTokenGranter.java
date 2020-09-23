@@ -17,10 +17,12 @@ import java.util.Map;
 public class MobileTokenGranter extends ResourceOwnerPasswordTokenGranter {
 
 
+    private static final String GRANT_TYPE = "mobile";
+
     private final AuthenticationManager authenticationManager;
 
     public MobileTokenGranter(AuthenticationManager authenticationManager, AuthorizationServerTokenServices tokenServices, ClientDetailsService clientDetailsService, OAuth2RequestFactory requestFactory) {
-        super(authenticationManager, tokenServices, clientDetailsService, requestFactory);
+        super(authenticationManager, tokenServices, clientDetailsService, requestFactory, GRANT_TYPE);
         this.authenticationManager = authenticationManager;
     }
 

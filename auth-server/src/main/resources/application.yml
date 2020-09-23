@@ -1,6 +1,5 @@
 
-jwt:
-  signingKey: 123456 # 签名key
+#jwt:
 #  secret: 123456 # 登录校验的密钥
 #  pubKeyPath: /Users/zhouchao/github/springCloudBase/auth-server/tmp/rsa/rsarsa.pub # 公钥地址
 #  priKeyPath: /Users/zhouchao/github/springCloudBase/auth-server/tmp/rsa/rsa.pri # 私钥地址
@@ -13,3 +12,7 @@ spring:
     url: jdbc:${DATASOURCE_DBTYPE:mysql}://${DATASOURCE_HOST:192.168.5.130}:${DATASOURCE_PORT:3306}/auth?characterEncoding=UTF-8&useUnicode=true&useSSL=false&serverTimezone=GMT
     username: ${DATASOURCE_USERNAME:root}
     password: ${DATASOURCE_PASSWORD:123321}
+  security:
+    oauth2:
+      jwt:
+        signingKey: 123456
