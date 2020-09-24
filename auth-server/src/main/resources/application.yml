@@ -9,9 +9,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:${DATASOURCE_DBTYPE:mysql}://${DATASOURCE_HOST:192.168.5.130}:${DATASOURCE_PORT:3306}/auth?characterEncoding=UTF-8&useUnicode=true&useSSL=false&serverTimezone=GMT
-    username: ${DATASOURCE_USERNAME:root}
-    password: ${DATASOURCE_PASSWORD:123321}
+    url: jdbc:${DATASOURCE_DBTYPE:mysql}://${DATASOURCE_HOST:10.0.2.17}:${DATASOURCE_PORT:3306}/sc_auth?characterEncoding=UTF-8&useUnicode=true&useSSL=false&serverTimezone=GMT
+    username: ${DATASOURCE_USERNAME:dev}
+    password: ${DATASOURCE_PASSWORD:T3sbPtjYElXrjHJs5i9c}
   security:
     oauth2:
       jwt:

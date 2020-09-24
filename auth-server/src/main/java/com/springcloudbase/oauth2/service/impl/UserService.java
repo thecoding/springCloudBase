@@ -14,6 +14,15 @@ public class UserService implements IUserService {
 
     @Override
     public User getByUniqueId(String uniqueId) {
-        return organizationProvider.getUserByUniqueId(uniqueId).getData();
+//        return organizationProvider.getUserByUniqueId(uniqueId).getData();
+        User user = new User();
+        user.setMobile("1851111222");
+        user.setUsername("testName");
+        user.setPassword("$2a$10$2szDKjvKHJCWE6YQNznogOeQF3USZHmCYj1fG7YbfK.vnTgNKLzri");
+        user.setEnabled(true);
+        user.setAccountNonExpired(true);
+        user.setCredentialsNonExpired(true);
+        user.setAccountNonLocked(true);
+        return user;
     }
 }

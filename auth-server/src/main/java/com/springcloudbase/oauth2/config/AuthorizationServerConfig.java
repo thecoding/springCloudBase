@@ -1,5 +1,6 @@
 package com.springcloudbase.oauth2.config;
 
+import com.google.common.collect.Lists;
 import com.springcloudbase.oauth2.exception.CustomWebResponseExceptionTranslator;
 import com.springcloudbase.oauth2.oauth2.enhancer.CustomTokenEnhancer;
 import com.springcloudbase.oauth2.oauth2.granter.MobileTokenGranter;
@@ -46,9 +47,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     DataSource dataSource;
 
-    @Value("${jwt.signingKey}")
+    @Value("${spring.security.oauth2.jwt.signingKey}")
     private String signingKey;
 
+    @Autowired
     AuthenticationManager authenticationManager;
 
     @Autowired
@@ -77,36 +79,36 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         //token
         endpoints.tokenStore(tokenStore())
-                //todo 待解析
+                //授权码模式
                 .authorizationCodeServices(authorizationCodeServices())
                 //存储已经授权对象
                 .approvalStore(approvalStore())
-                //
+                //自定义异常信息
                 .exceptionTranslator(customExceptionTranslator())
-                //token增强
+                //token增强链
                 .tokenEnhancer(tokenEnhancerChain())
                 .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService)
                 //自定义授权
-                .tokenGranter(tokenGranter(endpoints));;
-
+                .tokenGranter(tokenGranter(endpoints));
     }
 
-
-    /***
-     * 自定义token认证器
-     * @param endpoints
-     * @return
+    /**
+     * 生成token的增强对象
+     * @return JwtTokenStore
      */
-    private TokenGranter tokenGranter(AuthorizationServerEndpointsConfigurer endpoints) {
-        List<TokenGranter> tokenGranters = Arrays.asList(endpoints.getTokenGranter());
-        tokenGranters.add(new MobileTokenGranter(authenticationManager, endpoints.getTokenServices(), endpoints.getClientDetailsService(),endpoints.getOAuth2RequestFactory()));
-        return new CompositeTokenGranter(tokenGranters);
+    @Bean
+    public TokenStore tokenStore() {
+        return new JwtTokenStore(accessTokenConverter());
     }
 
+    /**
+     * 授权码持久化
+     * @return JdbcAuthorizationCodeServices
+     */
     @Bean
-    public WebResponseExceptionTranslator<OAuth2Exception> customExceptionTranslator() {
-        return new CustomWebResponseExceptionTranslator();
+    public AuthorizationCodeServices authorizationCodeServices() {
+        return new JdbcAuthorizationCodeServices(dataSource);
     }
 
 
@@ -119,14 +121,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         return new JdbcApprovalStore(dataSource);
     }
 
-    /**
-     * 授权码持久化
-     * @return JdbcAuthorizationCodeServices
-     */
+
     @Bean
-    public AuthorizationCodeServices authorizationCodeServices() {
-        return new JdbcAuthorizationCodeServices(dataSource);
+    public WebResponseExceptionTranslator<OAuth2Exception> customExceptionTranslator() {
+        return new CustomWebResponseExceptionTranslator();
     }
+
 
 
     /**
@@ -144,15 +144,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 
     /**
-     * 生成token的增强对象
-     * @return JwtTokenStore
-     */
-    @Bean
-    public TokenStore tokenStore() {
-        return new JwtTokenStore(accessTokenConverter());
-    }
-
-    /**
      * jwt 转换器，生成jwt信息
      * {@link JwtAccessTokenConverter#enhance(org.springframework.security.oauth2.common.OAuth2AccessToken, org.springframework.security.oauth2.provider.OAuth2Authentication)}
      * @return  JwtAccessTokenConverter
@@ -164,6 +155,18 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         return converter;
     }
 
-
+    /***
+     * 自定义token认证器
+     * @param endpoints
+     * @return
+     */
+    public TokenGranter tokenGranter(AuthorizationServerEndpointsConfigurer endpoints) {
+        List<TokenGranter> tokenGranters = Lists.newArrayList(endpoints.getTokenGranter());
+        tokenGranters.add(new MobileTokenGranter(authenticationManager,
+                endpoints.getTokenServices(),
+                endpoints.getClientDetailsService(),
+                endpoints.getOAuth2RequestFactory()));
+        return new CompositeTokenGranter(tokenGranters);
+    }
 
 }

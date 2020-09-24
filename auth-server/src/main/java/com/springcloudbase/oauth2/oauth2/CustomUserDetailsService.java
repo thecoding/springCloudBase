@@ -1,6 +1,6 @@
 package com.springcloudbase.oauth2.oauth2;
 
-import com.springcloudbase.oauth2.entity.Role;
+import com.google.common.collect.Sets;
 import com.springcloudbase.oauth2.entity.User;
 import com.springcloudbase.oauth2.service.IRoleService;
 import com.springcloudbase.oauth2.service.IUserService;
@@ -12,8 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service("userDetailsService")
@@ -47,8 +47,13 @@ public class CustomUserDetailsService implements UserDetailsService {
      * @return
      */
     protected Set<GrantedAuthority> obtainGrantedAuthorities(User user) {
-        Set<Role> roles = roleService.queryUserRolesByUserId(user.getId());
-        log.info("user:{},roles:{}", user.getUsername(), roles);
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getCode())).collect(Collectors.toSet());
+//        Set<Role> roles = roleService.queryUserRolesByUserId(user.getId());
+//        log.info("user:{},roles:{}", user.getUsername(), roles);
+//        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getCode())).collect(Collectors.toSet());
+
+        //TODO 测试
+        HashSet<GrantedAuthority> rtn = Sets.newHashSet();
+        rtn.add(new SimpleGrantedAuthority("ROLE_USER"));
+        return rtn;
     }
 }
