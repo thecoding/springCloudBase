@@ -1,20 +1,23 @@
-
+spring:
+  profiles: dev
 server:
-  port: 13100
+  port: 13101
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8080/eureka/
+    registry-fetch-interval-seconds: 5
   instance:
     instance-id: ${spring.cloud.client.ip-address}:${server.port}
     metadata-map:
       version: 1.0
       is-test: true
-spring:
-  application:
-    name: other-api
-# 统一处理结果返回
+ribbon:
+  ServerListRefreshInterval: 5000
+
+# 缁熶竴澶勭悊缁撴灉杩斿洖
 responseBodyAdvice:
   is-open: true
-  # com.springcloudbase.advice.ResponseAdvisor，多个包配置'com.springcloud.other.provider.controller,com.springcloud.other.provider.service.impl'
+  # com.springcloudbase.advice.ResponseAdvisor锛屽涓寘閰嶇疆'com.springcloud.other.provider.controller,com.springcloud.other.provider.service.impl'
   basePackages:  "com.springcloud.other.provider.controller"
+

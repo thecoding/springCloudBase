@@ -3,7 +3,7 @@ package com.springcloudbase.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.cloud.netflix.eureka.EurekaClientAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 
@@ -27,7 +27,7 @@ public class EurekaConfig {
      */
     @Slf4j
     @Configuration
-    @ConditionalOnProperty(name = {"eureka.client.service-url.defaultZone"}, matchIfMissing = true)
+    @ConditionalOnExpression("'${eureka.client.service-url.defaultZone}' == null or '${eureka.client.service-url.defaultZone}' == ''")
     @EnableAutoConfiguration(exclude = {EurekaClientAutoConfiguration.class})
     public static class EurekaAutoConfig{
         public EurekaAutoConfig(){

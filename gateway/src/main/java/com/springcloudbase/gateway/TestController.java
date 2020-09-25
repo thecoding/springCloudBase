@@ -1,5 +1,6 @@
 package com.springcloudbase.gateway;
 
+import io.jmnarloch.spring.cloud.ribbon.support.RibbonFilterContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -21,7 +22,6 @@ public class TestController {
 
     @RequestMapping("/servers")
     public List getClient(){
-
         List<ServiceInstance> serviceInstance = discoveryClient.getInstances("USER-SERVER-API");
         return serviceInstance;
     }

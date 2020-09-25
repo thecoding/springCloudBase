@@ -1,0 +1,22 @@
+spring:
+  profiles: dev2
+server:
+  port: 13102
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8080/eureka/
+    registry-fetch-interval-seconds: 5
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    metadata-map:
+      version: 2.0
+      is-test: true
+
+
+# 统一处理结果返回
+responseBodyAdvice:
+  is-open: true
+  # com.springcloudbase.advice.ResponseAdvisor，多个包配置'com.springcloud.other.provider.controller,com.springcloud.other.provider.service.impl'
+  basePackages:  "com.springcloud.other.provider.controller"
+

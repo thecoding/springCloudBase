@@ -1,7 +1,6 @@
 
 spring:
   profiles:
-    active: single
-
-
-
+    active: eureka
+  application:
+    name: gateway-server

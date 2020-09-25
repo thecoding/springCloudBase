@@ -13,6 +13,12 @@ eureka:
     register-with-eureka: false
     serviceUrl:
       defaultZone: http://localhost:${server.port}/eureka/
+  server:
+    eviction-interval-timer-in-ms: 5000
+    response-cache-update-interval-ms: 5000
+  instance:
+    lease-renewal-interval-in-seconds: 15
+    lease-expiration-duration-in-seconds: 5
 spring:
   profiles: dev
 
@@ -25,5 +31,11 @@ eureka:
     register-with-eureka: false
     serviceUrl:
       defaultZone: http://localhost:${server.port}/eureka/
+  server:
+    eviction-interval-timer-in-ms: 5000
+    response-cache-update-interval-ms: 5000
+  instance:
+    lease-renewal-interval-in-seconds: 15
+    lease-expiration-duration-in-seconds: 5
 spring:
   profiles: test

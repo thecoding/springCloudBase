@@ -1,4 +1,5 @@
 spring:
   profiles:
     active: dev,eureka  #多个用 , 来分隔
-
+  application:
+    name: user-api
