@@ -1,10 +1,10 @@
 package com.springcloudbase.gateway.config;
 
 
+import com.springcloudbase.gateway.ConditionalOnPropertyEmpty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.cloud.netflix.eureka.EurekaClientAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,7 +22,8 @@ public class AutoConfiguration {
     }
 
     @Configuration
-    @ConditionalOnExpression("'${eureka.client.service-url.defaultZone}' == null or '${eureka.client.service-url.defaultZone}' == ''")
+//    @ConditionalOnExpression("T(org.springframework.util.StringUtils).isEmpty('${eureka.client.service-url.defaultZone}')")
+    @ConditionalOnPropertyEmpty("eureka.client.server-url.defaultZone")
     @EnableAutoConfiguration(exclude = {EurekaClientAutoConfiguration.class})
     @Slf4j
     public static class EurekaConfig{
