@@ -22,7 +22,7 @@ public class AutoConfiguration {
     }
 
     @Configuration
-    @ConditionalOnExpression("'${eureka.client.service-url.defaultZone}' == null or '${eureka.client.service-url.defaultZone}' == ''")
+    @ConditionalOnExpression("T(org.springframework.util.StringUtils).isEmpty('${eureka.client.service-url.defaultZone}')")
     @EnableAutoConfiguration(exclude = {EurekaClientAutoConfiguration.class})
     @Slf4j
     public static class EurekaConfig{
