@@ -1,14 +1,14 @@
 # 公共配置
-server:
-  port: 13000
+#server:
+#  port: 13000
 spring:
 #  messages:
 #    basename: i18n/validations
 #    encoding: UTF-8
   application:
     name: user-server-api
-
-
+  profiles:
+    active: eureka #,eureka  #多个用 , 来分隔，表示加载 application-{active}.yml
 
 
 

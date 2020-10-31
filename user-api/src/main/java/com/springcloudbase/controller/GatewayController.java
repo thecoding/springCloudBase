@@ -29,7 +29,7 @@ public class GatewayController {
     @GetMapping(value = "/order2")
     public Map getOrder2(@RequestParam(required = false) String version){
         if (StringUtil.isNotBlank(version)) {
-            //实现服务于服务之间指定版本的调用，通过eureka中meta信息
+            //test 实现服务于服务之间指定版本的调用，通过eureka中meta信息，这里可以放在过滤器、拦截器或者切面中（最好是过滤器）
             RibbonFilterContextHolder.getCurrentContext().add("version", version);
         }
         String order2 = otherServiceExtends.getHelloTest("order2");

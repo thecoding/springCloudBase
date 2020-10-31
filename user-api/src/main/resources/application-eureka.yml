@@ -1,5 +1,4 @@
-spring:
-  profiles: eureka
+
 eureka:
   client:
     service-url:
@@ -10,4 +9,6 @@ eureka:
     metadata-map:
       version: 1.0
       is-test: true
+server:
+  port: 13001
 # 是否加载eurekaClient需要参考com.springcloudbase.config.EurekaConfig
