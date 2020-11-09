@@ -1,5 +1,7 @@
 package com.springcloud.base.zuul.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +22,20 @@ public class ZuulFilterLimitController {
     @RequestMapping("/hello/test")
     public String helloAndTest(){
         return "hello-test";
+    }
+
+
+
+
+    @RequestMapping("/sentinel")
+    @SentinelResource(value = "ZuulFilterLimitController.sentinelSourceTest", blockHandler = "sentinelFall")
+    public String sentinelSourceTest(){
+        return "sentinel test";
+    }
+
+    public String sentinelFall(BlockException e){
+        System.out.println("sentinel 阻塞了..");
+        return "sentinel fail";
     }
 
 }

@@ -5,15 +5,15 @@ zuul:
   routes:
     xxx:
 #      test1
-#      ÕâÀïÇëÇóµÄÊÇ  localhost:5003/forword1/  Ä¬ÈÏ¾Í»áÈ¥ÇëÇóµ½µ±Ç°·şÎñµÄ /helloÇëÇó
-#      ÕâÀïÇëÇóµÄÊÇ  localhost:5003/forword1/test  Ä¬ÈÏ¾Í»áÈ¥ÇëÇóµ½µ±Ç°·şÎñµÄ /hello/test ÇëÇó
+#      è¿™é‡Œè¯·æ±‚çš„æ˜¯  localhost:5003/forword1/  é»˜è®¤å°±ä¼šå»è¯·æ±‚åˆ°å½“å‰æœåŠ¡çš„ /helloè¯·æ±‚
+#      è¿™é‡Œè¯·æ±‚çš„æ˜¯  localhost:5003/forword1/test  é»˜è®¤å°±ä¼šå»è¯·æ±‚åˆ°å½“å‰æœåŠ¡çš„ /hello/test è¯·æ±‚
 
-#     Èç¹ûÊÇÉÏÃæÁ½ÖÖ forward:/hello   LimitFilter ÖĞ   setSendZuulResponse(false) ¶Ô forward ÊÇ²»Æğ×÷ÓÃµÄ£¬
-#     ĞèÒªÉèÖÃ ctx.set("sendForwardFilter.ran"£¬true) ²ÅĞĞ
+#     å¦‚æœæ˜¯ä¸Šé¢ä¸¤ç§ forward:/hello   LimitFilter ä¸­   setSendZuulResponse(false) å¯¹ forward æ˜¯ä¸èµ·ä½œç”¨çš„ï¼Œ
+#     éœ€è¦è®¾ç½® ctx.set("sendForwardFilter.ran"ï¼Œtrue) æ‰è¡Œ
       path: /forword1/**
       url: forward:/hello
 
 
-#      ÕâÀï±íÊ¾ËùÓĞµÄÇëÇó¶¼»á´òµ½ http://localhost:5003/hello ÉÏ
+#      è¿™é‡Œè¡¨ç¤ºæ‰€æœ‰çš„è¯·æ±‚éƒ½ä¼šæ‰“åˆ° http://localhost:5003/hello ä¸Š
 #      path: /**
 #      url: http://localhost:5003/hello

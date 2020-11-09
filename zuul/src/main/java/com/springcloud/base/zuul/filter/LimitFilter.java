@@ -10,10 +10,12 @@ import org.springframework.stereotype.Component;
 
 
 /**
+ * zuulFilter + guava限流
  * @author Mirko
  * @Description
  * @createTime 2020年11月02日 00:05:00
  */
+@Component
 public class LimitFilter extends ZuulFilter {
 
 
