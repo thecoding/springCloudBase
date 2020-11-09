@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springcloud.base.lcn.tc.pay.dao.TxPayDao">
+  <resultMap id="BaseResultMap" type="com.springcloud.base.lcn.tc.pay.model.TxPay">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="pay_name" jdbcType="VARCHAR" property="payName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, pay_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tx_pay
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tx_pay
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.springcloud.base.lcn.tc.pay.model.TxPay" useGeneratedKeys="true">
+    insert into tx_pay (pay_name)
+    values (#{payName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.springcloud.base.lcn.tc.pay.model.TxPay" useGeneratedKeys="true">
+    insert into tx_pay
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="payName != null">
+        pay_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="payName != null">
+        #{payName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.springcloud.base.lcn.tc.pay.model.TxPay">
+    update tx_pay
+    <set>
+      <if test="payName != null">
+        pay_name = #{payName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.springcloud.base.lcn.tc.pay.model.TxPay">
+    update tx_pay
+    set pay_name = #{payName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
