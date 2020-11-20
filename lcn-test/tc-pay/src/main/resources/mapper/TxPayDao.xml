@@ -1,52 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.springcloud.base.lcn.tc.pay.dao.TxPayDao">
-  <resultMap id="BaseResultMap" type="com.springcloud.base.lcn.tc.pay.model.TxPay">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="pay_name" jdbcType="VARCHAR" property="payName" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, pay_name
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from tx_pay
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from tx_pay
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.springcloud.base.lcn.tc.pay.model.TxPay" useGeneratedKeys="true">
-    insert into tx_pay (pay_name)
-    values (#{payName,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.springcloud.base.lcn.tc.pay.model.TxPay" useGeneratedKeys="true">
-    insert into tx_pay
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="payName != null">
-        pay_name,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="payName != null">
-        #{payName,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.springcloud.base.lcn.tc.pay.model.TxPay">
-    update tx_pay
-    <set>
-      <if test="payName != null">
-        pay_name = #{payName,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.springcloud.base.lcn.tc.pay.model.TxPay">
-    update tx_pay
-    set pay_name = #{payName,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+
+    <resultMap type="com.springcloud.base.lcn.tc.pay.entity.TxPay" id="TxPayMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="payName" column="pay_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TxPayMap">
+        select
+          id, pay_name
+        from tx_manager.tx_pay
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TxPayMap">
+        select
+          id, pay_name
+        from tx_manager.tx_pay
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TxPayMap">
+        select
+          id, pay_name
+        from tx_manager.tx_pay
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="payName != null and payName != ''">
+                and pay_name = #{payName}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into tx_manager.tx_pay(pay_name)
+        values (#{payName})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update tx_manager.tx_pay
+        <set>
+            <if test="payName != null and payName != ''">
+                pay_name = #{payName},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from tx_manager.tx_pay where id = #{id}
+    </delete>
+
 </mapper>
