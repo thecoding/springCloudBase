@@ -34,6 +34,12 @@ public class TxPayController {
         return this.txPayService.queryById(id);
     }
 
+
+    /**
+     * 模拟正常保存
+     * @param name
+     * @return
+     */
     @PostMapping("/insert")
     @Transactional(rollbackFor = Exception.class)
     @LcnTransaction
@@ -44,8 +50,27 @@ public class TxPayController {
         return null;
     }
 
+
+    /**
+     * 模拟保存到DB异常
+     * @param name
+     * @return
+     */
+    @PostMapping("/insert-error")
+    @Transactional(rollbackFor = Exception.class)
+    @LcnTransaction
+    public String insertError(@RequestParam(value = "name",required = true) String name){
+        TxPay txPay = new TxPay();
+        txPay.setPayName("Pay:"+name);
+        txPayService.insert(txPay);
+        int i = 1/0;
+        return null;
+    }
+
     @PostMapping("/pay")
     public String test(){
         return "this is pay server";
     }
+
+
 }

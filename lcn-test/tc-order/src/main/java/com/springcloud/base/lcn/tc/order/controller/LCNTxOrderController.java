@@ -1,9 +1,9 @@
 package com.springcloud.base.lcn.tc.order.controller;
 
 import com.codingapi.txlcn.tc.annotation.LcnTransaction;
-import com.codingapi.txlcn.tc.annotation.TccTransaction;
 import com.springcloud.base.lcn.tc.order.entity.TxOrder;
 import com.springcloud.base.lcn.tc.order.service.TxOrderService;
+import org.h2.util.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * (TxOrder)表控制层
@@ -23,8 +25,8 @@ import javax.annotation.Resource;
  * @since 2020-11-20 23:58:09
  */
 @RestController
-@RequestMapping("/txOrder-tcc")
-public class TccTxOrderController {
+@RequestMapping("/txOrder-lcn")
+public class LCNTxOrderController {
     /**
      * 服务对象
      */
@@ -58,7 +60,7 @@ public class TccTxOrderController {
 
     @GetMapping("/insert-pay-error")
     @Transactional(rollbackFor = Exception.class)
-    @TccTransaction
+    @LcnTransaction
     public String insertToPayError(@RequestParam("name") String name){
         MultiValueMap map = new LinkedMultiValueMap();
         map.add("name", name);
@@ -71,43 +73,19 @@ public class TccTxOrderController {
         return "success";
     }
 
-
-
     @GetMapping("/insert-pay-ok")
     @Transactional(rollbackFor = Exception.class)
-    @TccTransaction
+    @LcnTransaction
     public String insertToPayOk(@RequestParam("name") String name){
         MultiValueMap map = new LinkedMultiValueMap();
         map.add("name", name);
         restTemplate.postForEntity("http://lcn:20001/txPay/insert", map, String.class);
+
         TxOrder txOrder = new TxOrder();
         txOrder.setOrderName(name);
         txOrderService.insert(txOrder);
         return "success";
     }
-
-    /**
-     * tcc
-     * insertToPayOk成功的回调方法
-     * @param name
-     * @return
-     */
-    public String confirmInsertToPayOk(String name){
-        System.out.println("insertToPayOk 方法执行成功");
-        return "success";
-    }
-
-    /**
-     * tcc
-     * insertToPayOk执行失败的回调方法
-     * @param name
-     * @return
-     */
-    public String cancelInsertToPayOk(String name){
-        System.out.println("insertToPayOk 方法执行失败");
-        return "success";
-    }
-
 
 
     /**
@@ -117,7 +95,7 @@ public class TccTxOrderController {
      */
     @GetMapping("/insert-pay-ok-error")
     @Transactional(rollbackFor = Exception.class)
-    @TccTransaction
+    @LcnTransaction
     public String insertToPayOkError(@RequestParam("name") String name){
         MultiValueMap map = new LinkedMultiValueMap();
         map.add("name", name);
