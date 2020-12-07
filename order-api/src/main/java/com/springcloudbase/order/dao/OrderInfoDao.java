@@ -1,6 +1,7 @@
 package com.springcloudbase.order.dao;
 
 import com.springcloudbase.order.entity.OrderInfo;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import java.util.List;
  * @author makejava
  * @since 2020-12-07 16:19:37
  */
+@Mapper
 public interface OrderInfoDao {
 
     /**

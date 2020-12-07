@@ -3,3 +3,25 @@ server:
 spring:
   application:
     name: order-server
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.5.130:3306/t_order?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    dbcp2:
+      initial-size: 5
+      min-idle: 5
+      max-total: 5
+      max-wait-millis: 200
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+  cache:
+    redis:
+      cache-null-values: true  # 设置为null可以防止请求一直打到db防止穿透，或者布隆过滤器，防止击穿使用sync = true
+      time-to-live: 120000  # 这个是存活时间，时间单位应该是毫秒，设置时间，不同时间请求过来，失效时间肯定使不一样的，防止雪崩
+  redis:
+    host: 192.168.5.140
+    port: 6379
