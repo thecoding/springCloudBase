@@ -22,7 +22,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("orderInfo")
-public class OrderInfoController {
+public class CacheOrderInfoController {
     /**
      * 服务对象
      */
