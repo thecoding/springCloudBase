@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springcloudbase.order.dao.BaseGroupLeaderDao">
+
+    <resultMap type="com.springcloudbase.order.entity.BaseGroupLeader" id="BaseGroupLeaderMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="groupId" column="group_id" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="crtTime" column="crt_time" jdbcType="TIMESTAMP"/>
+        <result property="crtUser" column="crt_user" jdbcType="VARCHAR"/>
+        <result property="crtName" column="crt_name" jdbcType="VARCHAR"/>
+        <result property="crtHost" column="crt_host" jdbcType="VARCHAR"/>
+        <result property="updTime" column="upd_time" jdbcType="TIMESTAMP"/>
+        <result property="updUser" column="upd_user" jdbcType="VARCHAR"/>
+        <result property="updName" column="upd_name" jdbcType="VARCHAR"/>
+        <result property="updHost" column="upd_host" jdbcType="VARCHAR"/>
+        <result property="attr1" column="attr1" jdbcType="VARCHAR"/>
+        <result property="attr2" column="attr2" jdbcType="VARCHAR"/>
+        <result property="attr3" column="attr3" jdbcType="VARCHAR"/>
+        <result property="attr4" column="attr4" jdbcType="VARCHAR"/>
+        <result property="attr5" column="attr5" jdbcType="VARCHAR"/>
+        <result property="attr6" column="attr6" jdbcType="VARCHAR"/>
+        <result property="attr7" column="attr7" jdbcType="VARCHAR"/>
+        <result property="attr8" column="attr8" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseGroupLeaderMap">
+        select
+          id, group_id, user_id, description, crt_time, crt_user, crt_name, crt_host, upd_time, upd_user, upd_name, upd_host, attr1, attr2, attr3, attr4, attr5, attr6, attr7, attr8
+        from cloud_admin_v1.base_group_leader
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseGroupLeaderMap">
+        select
+          id, group_id, user_id, description, crt_time, crt_user, crt_name, crt_host, upd_time, upd_user, upd_name, upd_host, attr1, attr2, attr3, attr4, attr5, attr6, attr7, attr8
+        from cloud_admin_v1.base_group_leader
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseGroupLeaderMap">
+        select
+          id, group_id, user_id, description, crt_time, crt_user, crt_name, crt_host, upd_time, upd_user, upd_name, upd_host, attr1, attr2, attr3, attr4, attr5, attr6, attr7, attr8
+        from cloud_admin_v1.base_group_leader
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="groupId != null and groupId != ''">
+                and group_id = #{groupId}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="crtTime != null">
+                and crt_time = #{crtTime}
+            </if>
+            <if test="crtUser != null and crtUser != ''">
+                and crt_user = #{crtUser}
+            </if>
+            <if test="crtName != null and crtName != ''">
+                and crt_name = #{crtName}
+            </if>
+            <if test="crtHost != null and crtHost != ''">
+                and crt_host = #{crtHost}
+            </if>
+            <if test="updTime != null">
+                and upd_time = #{updTime}
+            </if>
+            <if test="updUser != null and updUser != ''">
+                and upd_user = #{updUser}
+            </if>
+            <if test="updName != null and updName != ''">
+                and upd_name = #{updName}
+            </if>
+            <if test="updHost != null and updHost != ''">
+                and upd_host = #{updHost}
+            </if>
+            <if test="attr1 != null and attr1 != ''">
+                and attr1 = #{attr1}
+            </if>
+            <if test="attr2 != null and attr2 != ''">
+                and attr2 = #{attr2}
+            </if>
+            <if test="attr3 != null and attr3 != ''">
+                and attr3 = #{attr3}
+            </if>
+            <if test="attr4 != null and attr4 != ''">
+                and attr4 = #{attr4}
+            </if>
+            <if test="attr5 != null and attr5 != ''">
+                and attr5 = #{attr5}
+            </if>
+            <if test="attr6 != null and attr6 != ''">
+                and attr6 = #{attr6}
+            </if>
+            <if test="attr7 != null and attr7 != ''">
+                and attr7 = #{attr7}
+            </if>
+            <if test="attr8 != null and attr8 != ''">
+                and attr8 = #{attr8}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into cloud_admin_v1.base_group_leader(group_id, user_id, description, crt_time, crt_user, crt_name, crt_host, upd_time, upd_user, upd_name, upd_host, attr1, attr2, attr3, attr4, attr5, attr6, attr7, attr8)
+        values (#{groupId}, #{userId}, #{description}, #{crtTime}, #{crtUser}, #{crtName}, #{crtHost}, #{updTime}, #{updUser}, #{updName}, #{updHost}, #{attr1}, #{attr2}, #{attr3}, #{attr4}, #{attr5}, #{attr6}, #{attr7}, #{attr8})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update cloud_admin_v1.base_group_leader
+        <set>
+            <if test="groupId != null and groupId != ''">
+                group_id = #{groupId},
+            </if>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="crtTime != null">
+                crt_time = #{crtTime},
+            </if>
+            <if test="crtUser != null and crtUser != ''">
+                crt_user = #{crtUser},
+            </if>
+            <if test="crtName != null and crtName != ''">
+                crt_name = #{crtName},
+            </if>
+            <if test="crtHost != null and crtHost != ''">
+                crt_host = #{crtHost},
+            </if>
+            <if test="updTime != null">
+                upd_time = #{updTime},
+            </if>
+            <if test="updUser != null and updUser != ''">
+                upd_user = #{updUser},
+            </if>
+            <if test="updName != null and updName != ''">
+                upd_name = #{updName},
+            </if>
+            <if test="updHost != null and updHost != ''">
+                upd_host = #{updHost},
+            </if>
+            <if test="attr1 != null and attr1 != ''">
+                attr1 = #{attr1},
+            </if>
+            <if test="attr2 != null and attr2 != ''">
+                attr2 = #{attr2},
+            </if>
+            <if test="attr3 != null and attr3 != ''">
+                attr3 = #{attr3},
+            </if>
+            <if test="attr4 != null and attr4 != ''">
+                attr4 = #{attr4},
+            </if>
+            <if test="attr5 != null and attr5 != ''">
+                attr5 = #{attr5},
+            </if>
+            <if test="attr6 != null and attr6 != ''">
+                attr6 = #{attr6},
+            </if>
+            <if test="attr7 != null and attr7 != ''">
+                attr7 = #{attr7},
+            </if>
+            <if test="attr8 != null and attr8 != ''">
+                attr8 = #{attr8},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from cloud_admin_v1.base_group_leader where id = #{id}
+    </delete>
+
+</mapper>

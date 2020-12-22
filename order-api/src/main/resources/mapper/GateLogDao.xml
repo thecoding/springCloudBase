@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springcloudbase.order.dao.GateLogDao">
+
+    <resultMap type="com.springcloudbase.order.entity.GateLog" id="GateLogMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="menu" column="menu" jdbcType="VARCHAR"/>
+        <result property="opt" column="opt" jdbcType="VARCHAR"/>
+        <result property="uri" column="uri" jdbcType="VARCHAR"/>
+        <result property="crtTime" column="crt_time" jdbcType="TIMESTAMP"/>
+        <result property="crtUser" column="crt_user" jdbcType="VARCHAR"/>
+        <result property="crtName" column="crt_name" jdbcType="VARCHAR"/>
+        <result property="crtHost" column="crt_host" jdbcType="VARCHAR"/>
+        <result property="body" column="body" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="GateLogMap">
+        select
+          id, menu, opt, uri, crt_time, crt_user, crt_name, crt_host, body
+        from cloud_admin_v1.gate_log
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="GateLogMap">
+        select
+          id, menu, opt, uri, crt_time, crt_user, crt_name, crt_host, body
+        from cloud_admin_v1.gate_log
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="GateLogMap">
+        select
+          id, menu, opt, uri, crt_time, crt_user, crt_name, crt_host, body
+        from cloud_admin_v1.gate_log
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="menu != null and menu != ''">
+                and menu = #{menu}
+            </if>
+            <if test="opt != null and opt != ''">
+                and opt = #{opt}
+            </if>
+            <if test="uri != null and uri != ''">
+                and uri = #{uri}
+            </if>
+            <if test="crtTime != null">
+                and crt_time = #{crtTime}
+            </if>
+            <if test="crtUser != null and crtUser != ''">
+                and crt_user = #{crtUser}
+            </if>
+            <if test="crtName != null and crtName != ''">
+                and crt_name = #{crtName}
+            </if>
+            <if test="crtHost != null and crtHost != ''">
+                and crt_host = #{crtHost}
+            </if>
+            <if test="body != null and body != ''">
+                and body = #{body}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into cloud_admin_v1.gate_log(menu, opt, uri, crt_time, crt_user, crt_name, crt_host, body)
+        values (#{menu}, #{opt}, #{uri}, #{crtTime}, #{crtUser}, #{crtName}, #{crtHost}, #{body})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update cloud_admin_v1.gate_log
+        <set>
+            <if test="menu != null and menu != ''">
+                menu = #{menu},
+            </if>
+            <if test="opt != null and opt != ''">
+                opt = #{opt},
+            </if>
+            <if test="uri != null and uri != ''">
+                uri = #{uri},
+            </if>
+            <if test="crtTime != null">
+                crt_time = #{crtTime},
+            </if>
+            <if test="crtUser != null and crtUser != ''">
+                crt_user = #{crtUser},
+            </if>
+            <if test="crtName != null and crtName != ''">
+                crt_name = #{crtName},
+            </if>
+            <if test="crtHost != null and crtHost != ''">
+                crt_host = #{crtHost},
+            </if>
+            <if test="body != null and body != ''">
+                body = #{body},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from cloud_admin_v1.gate_log where id = #{id}
+    </delete>
+
+</mapper>
