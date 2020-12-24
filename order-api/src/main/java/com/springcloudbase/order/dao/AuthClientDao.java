@@ -63,4 +63,5 @@ public interface AuthClientDao {
      */
     int deleteById(Integer id);
 
+
 }

@@ -1,7 +1,9 @@
 package com.springcloudbase.order.service;
 
+import com.github.pagehelper.PageInfo;
 import com.springcloudbase.order.entity.AuthClient;
 import java.util.List;
+import java.util.Map;
 
 /**
  * (AuthClient)表服务接口
@@ -52,4 +54,7 @@ public interface AuthClientService {
      */
     boolean deleteById(Integer id);
 
+    PageInfo<AuthClient> getPageAuthClient();
+
+    PageInfo<Map<String,String>> getPageAuthClient1();
 }
